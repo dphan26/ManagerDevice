@@ -25,9 +25,11 @@ dependencies {
 	implementation group: 'org.apache.tomcat', name: 'tomcat-jasper', version: '9.0.56'
 	// https://mvnrepository.com/artifact/javax.servlet/jstl   -> de cau hinh view la jsp
 	implementation group: 'javax.servlet', name: 'jstl', version: '1.2'
-	
+	// https://mvnrepository.com/artifact/io.mateu/lombok
+	implementation group: 'io.mateu', name: 'lombok', version: '1.18.11.97'
 
-	
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-thymeleaf
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.6.3'
 
 	
 	

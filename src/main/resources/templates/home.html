@@ -1,10 +1,149 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Good Thymes Virtual Grocery</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
 </head>
+<!-- --controler service - dao. -->
+
+
 <body>
-hello home
+	<h1>Xin Chao</h1>
+	<p data-th-text="#{home.welcome}">Welcome to our grocery store!</p>
+	Established locale country:
+	<span th:text="${#locale.country}"></span>.
+	<a href="/addAssetForm">Add Asset</a>
+	<br>
+	<br>
+	<br>
+	<h2>Search</h2>
+	<form action="#" th:action="@{/searchAccount}" th:object="${assetForm}"
+		method="post">
+		<p>
+			Account: <input type="text" name="account" th:field="*{account}"
+				th:value="${accountsearch}" />
+		</p>
+		<td><button type="submit">SearchAccount</button></td>
+	</form>
+	<br>
+	<br>
+	<br>
+
+	<form name='f' th:action="@{/searchSiteForm}"
+		th:object="${searchSiteForm}" method='post'>
+		<table>
+			<tr>
+				<td>Select Country:</td>
+				<td><select th:field="*{id_site}">
+						<option value="">--</option>
+						<option th:each="key : ${mapSite.keySet()}" th:value="${key}"
+							th:utext="${mapSite.get(key)}"></option>
+				</select></td>
+			</tr>
+			<tr>
+				<td><button type="submit">SearchSite</button></td>
+			</tr>
+		</table>
+	</form>
+
+	<h2>List Asset</h2>
+	<form action="#" method="get">
+		<table border="1" style="width: 300px">
+			<tr>
+				<td>ID_Asset</td>
+				<td>Name</td>
+				<td>Account</td>
+				<td>Department</td>
+				<td>IP</td>
+				<td>Received_Date</td>
+				<td>Status</td>
+				<td>Email</td>
+				<td>Site</td>
+				<td>Update_Stamp</td>
+				<td>Update_User</td>
+				<td>Delete_TS</td>
+				<td>Delete_User</td>
+				<td>Edit_Action</td>
+				<td>Delete_Action</td>
+			</tr>
+			<tr th:each="smokeTest : ${assets}">
+				<td th:text="${smokeTest.id_asset}"></td>
+
+				<td th:text="${smokeTest.name}"></td>
+				<td th:text="${smokeTest.account}"></td>
+				<td th:text="${smokeTest.department}"></td>
+				<td th:text="${smokeTest.ip}"></td>
+				<td th:text="${smokeTest.received_date}"></td>
+				<td th:text="${smokeTest.status}"></td>
+				<td th:text="${smokeTest.email}"></td>
+				<td th:text="${smokeTest.site}"></td>
+				<td th:text="${smokeTest.update_stamp}"></td>
+				<td th:text="${smokeTest.update_user}"></td>
+				<td th:text="${smokeTest.delete_ts}"></td>
+				<td th:text="${smokeTest.delete_user}"></td>
+				<td><button type="submit" th:formaction="@{/editAsset}">Edit</button></td>
+				<!-- 				<td><button type="submit"  th:formaction="@{'/deleteAsset={id}' (id=${smokeTest.id_asset})}" th:method="delete">Delete</button></td> -->
+				<td>
+<!-- 				<button type="submit" -->
+<!-- 						th:formaction="@{/deleteAsset(id=${smokeTest.id_asset})}"> -->
+<!-- 						delete</button> -->
+						<a th:href="@{/deleteAsset(id=${smokeTest.id_asset})}">Delete</a>
+						</td>
+						
+				
+<!-- @{/deleteEmployee(employeeId=${employee.id})} -->
+
+			</tr>
+		</table>
+	</form>
+	<br>
+	<br>
+	<br>
+	<!-- 	<h2>Edit Form</h2> -->
+	<!-- 	<form action="#" th:action="@{/EditAsset}" -->
+	<!-- 			th:object="${assetsEdit}" method="POST"> -->
+	<!-- 	<table border="1" style="width: 300px"> -->
+	<!-- 		<tr> -->
+	<!-- 			<td>ID_Asset</td> -->
+	<!-- 			<td>Name</td> -->
+	<!-- 			<td>Account</td> -->
+	<!-- 			<td>Department</td> -->
+	<!-- 			<td>IP</td> -->
+	<!-- 			<td>Received_Date</td> -->
+	<!-- 			<td>Status</td> -->
+	<!-- 			<td>Email</td> -->
+	<!-- 			<td>Site</td> -->
+	<!-- 			<td>Update_Stamp</td> -->
+	<!-- 			<td>Update_User</td> -->
+	<!-- 			<td>Delete_TS</td> -->
+	<!-- 			<td>Delete_User</td> -->
+	<!-- 			<td>Edit_Action</td> -->
+	<!-- 			<td>Delete_Action</td> -->
+	<!-- 		</tr> -->
+	<!-- 		<tr th:each="smokeTest : ${assets}"> -->
+	<!-- 			<td> <input type="text" th:value="${smokeTest.id_asset}" /> </td> -->
+	<!-- 			<td> <input type="text" th:value="${smokeTest.name}" /> </td> -->
+	<!-- 			<td> <input type="text" th:value="${smokeTest.account}" /> </td> -->
+	<!-- 			<td> <input type="text" th:value="${smokeTest.department}" /> </td> -->
+	<!-- 			<td> <input type="text" th:value="${smokeTest.ip}" /> </td> -->
+	<!-- 			<td> <input type="text" th:value="${smokeTest.received_date}" /> </td> -->
+	<!-- 			<td> <input type="text" th:value="${smokeTest.status}" /> </td> -->
+	<!-- 			<td> <input type="text" th:value="${smokeTest.email}" /> </td> -->
+	<!-- 			<td> <input type="text" th:value="${smokeTest.site}" /> </td> -->
+	<!-- 			<td> <input type="text" th:value="${update_stamp}" /> </td> -->
+	<!-- 			<td> <input type="text" th:value="${update_user}" /> </td> -->
+	<!-- 			<td> <input type="text" th:value="${smokeTest.delete_ts}" /> </td> -->
+	<!-- 			<td> <input type="text" th:value="${smokeTest.delete_user}" /> </td> -->
+	<!-- 			<td><button type="submit" name="action" value="edit">Edit</button></td> -->
+	<!-- 			<td><button type="submit" name="action" value="delete">Delete</button></td> -->
+	<!-- 		</tr> -->
+	<!-- 	</table> -->
+	<!-- 	</form> -->
+
+
+
 </body>
+
 </html>

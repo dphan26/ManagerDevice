@@ -1,4 +1,4 @@
-package com.example.model;
+package com.example.demo.repository.datamodel;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,10 +7,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Users")
-public class User {
-  
+public class Client {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+     
     private String name;
     private String email;
     private int age;
@@ -37,6 +38,11 @@ public class User {
 	}
 	public void setAge(int age) {
 		this.age = age;
+	}
+	
+	@Override
+	public String toString() {
+		return "Client [aid=" + id + ", aname=" + name + "]";
 	}
      
   

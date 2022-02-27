@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScans;
 import org.springframework.stereotype.Controller;
 
-
+import com.example.demo.controllers.HomeController;
 import com.example.demo.subcontroller.SubHomeLandingComponent;
 import com.example.landing.HomeLandingComponent;
 

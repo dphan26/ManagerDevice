@@ -7,7 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-Index home JSP
+User page web-inf
+
 <!-- <form action="add"> -->
 <!-- 	enter number 1: <input type="text" name="num1"><br> -->
 <!-- 	enter number 2: <input type="text" name="num2"><br> -->
