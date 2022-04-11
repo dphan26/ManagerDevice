@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:text="${title}"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
+</head>
+
+
+
+<body>
+	<h1>Register Device Booking</h1>
+	<form  action="/saveBookingDevice" method="post" th:object="${bookingForm}">
+		<br>
+		<table border="1" >
+			<tr>
+				<td style="width: 30px">STT</td>
+				<td style="width: 270px">Device Information</td>
+				<td style="width: 100px">From</td>
+				<td style="width: 100px">To</td>
+				<td style="width: 300px">Remark</td>
+			</tr>
+			<tr th:each="inforBooking, state : *{bkDevices}">
+				<td th:utext="${state.count}">count</td>
+				<td  th:text="|${inforBooking.device_id} ${inforBooking.deviceName} ${inforBooking.version}|"></td> 
+   				<td><input type="datetime-local" th:field="*{bkDevices[__${state.index}__].borrowedTime}" placeholder="From.."/></td>   
+  				<td><input type="datetime-local" th:field="*{bkDevices[__${state.index}__].returedTime}" placeholder="To.."/></td>
+				<td > <input type="text" th:field="*{bkDevices[__${state.index}__].remark}"/></td> 
+				
+				<td > <input type="hidden" th:field="*{bkDevices[__${state.index}__].device_id}" th:value="${inforBooking.device_id}"/></td> 
+				<td > <input type="hidden" th:field="*{bkDevices[__${state.index}__].deviceName}" th:value="${inforBooking.deviceName}"/></td> 
+				<td > <input type="hidden" th:field="*{bkDevices[__${state.index}__].version}" th:value="${inforBooking.version}"/></td> 
+
+			</tr>
+		</table>
+		<br>
+		<br>
+		<button id="btnSearch" type="submit">Register</button>
+		<button type="button">Back</button>
+		<button type="button">Reset</button>
+	</form>	
+</body>
+
+</html>

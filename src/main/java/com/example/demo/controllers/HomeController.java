@@ -1,209 +1,112 @@
 package com.example.demo.controllers;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import org.apache.commons.lang3.StringUtils;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.example.demo.model_form.AddingAssetForm;
-import com.example.demo.model_form.SearchSiteForm;
-import com.example.demo.repository.UserBRepository;
-import com.example.demo.repository.UserRepository;
-import com.example.demo.repository.datamodel.Asset;
-import com.example.demo.repository.datamodel.User;
-import com.example.demo.repository.datamodel.UserB;
-import com.example.demo.repository.service.HomePageService;
+import com.example.demo.constant.Const;
+import com.example.demo.entity.Booker;
+import com.example.demo.entity.Category;
+import com.example.demo.form.ConditionSearchForm;
+import com.example.demo.form.DeviceForm;
+import com.example.demo.form.GroupBookingForm;
+import com.example.demo.model.BookingModel;
+import com.example.demo.model.DeviceModel;
+import com.example.demo.model.DisplaySearchModel;
+import com.example.demo.service.BookingService;
+import com.example.demo.service.DeviceService;
+import com.example.demo.service.SearchService;
+
+//https://techmaster.vn/posts/36183/spring-boot-12-spring-jpa-method-atquery
+//https://www.baeldung.com/jpa-return-multiple-entities
+//https://www.baeldung.com/java-modelmapper-lists
 
 @Controller
 public class HomeController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
-	/*
-	 * ======================================================================
-	 * ====================== Configuration beans ===========================
-	 * ======================================================================
-	 */
+
 	@Autowired
-	private HomePageService homePageService;
+	private ModelMapper mapper;
 
-//	@Autowired
-//	UserRepository userRepository;
-//	@Autowired
-//	UserBRepository userBRepository;
+	@Autowired
+	private DeviceService deviceService;
 
-//	@ModelAttribute
-//	public void modelData(Model m) {
-//		m.addAttribute("dopt", "valueNameDoPT");
-//	}
+	@Autowired
+	private SearchService searchService;
+	
+	@Autowired
+	private BookingService bookingService;
+	
 
 	@RequestMapping({ "/", "/home" })
-	public String home(@ModelAttribute Asset assetForm, @ModelAttribute SearchSiteForm searchSiteForm, Model model)
-			throws Exception {
-		model.addAttribute("searchSiteForm", new SearchSiteForm());
-		model.addAttribute("assetFormAction", new AddingAssetForm());
-		// Display list users information from Assets Table
-		List<Asset> assets = homePageService.getAllListAsets();
-
-//		 https://stackoverflow.com/questions/7309259/get-list-of-attributes-of-an-object-in-an-list
-		List<String> lstSite = assets.stream().distinct().map(Asset::getSite).collect(Collectors.toList());
-		Map<String, String> mapSite = lstSite.stream().distinct()
-				.collect(Collectors.toMap(Function.identity(), s -> s));
-		mapSite.forEach((x, y) -> System.out.println("Key: " + x + ", value: " + y));
-		model.addAttribute("mapSite", mapSite);
-		model.addAttribute("assets", assets);
-		model.addAttribute("assetsEdit", new Asset());
-		model.addAttribute("assetForm", new Asset());
-		System.out.println("@Controller HomeController");
-		return "home";
-	}
-
-	@RequestMapping("/addAssetForm")
-	public String addAssetForm(Model model) throws Exception {
-		model.addAttribute("addingAssetForm", new AddingAssetForm());
-		return "add_user";
-	}
-
-	@PostMapping("/saveAsset")
-	public String addAsset(@ModelAttribute AddingAssetForm addingAssetForm, Model model) throws Exception {
-		model.addAttribute("searchSiteForm", new SearchSiteForm());
-		Asset asset = new Asset();
-		asset.setId_asset(addingAssetForm.getId_asset());
-		;
-		asset.setName(addingAssetForm.getName());
-		asset.setAccount(addingAssetForm.getAccount());
-		asset.setIp(addingAssetForm.getIp());
-		asset.setDepartment(addingAssetForm.getDepartment());
-		asset.setReceived_date(addingAssetForm.getReceived_date());
-		asset.setStatus(addingAssetForm.getStatus());
-		asset.setSite(addingAssetForm.getSite());
-		homePageService.addAsets(asset);
-		// Display list users information from Assets Table
-		List<Asset> assets = homePageService.getAllListAsets();
-		model.addAttribute("assets", assets);
-		model.addAttribute("assetForm", new Asset());
-//		 https://stackoverflow.com/questions/7309259/get-list-of-attributes-of-an-object-in-an-list
-		List<String> lstSite = assets.stream().distinct().map(Asset::getSite).collect(Collectors.toList());
-		Map<String, String> mapSite = lstSite.stream().distinct()
-				.collect(Collectors.toMap(Function.identity(), s -> s));
-		model.addAttribute("mapSite", mapSite);
-		return "home";
-	}
-
-
-	@PostMapping("/searchAccount")
-	public String searchAccount(@ModelAttribute AddingAssetForm addingAssetForm, Model model) throws Exception {
-		model.addAttribute("searchSiteForm", new SearchSiteForm());
-		model.addAttribute("assetForm", new Asset());
-		// Display list users information from Assets Table base on search account
-		List<Asset> assetsAccountSearch = homePageService.findByAccount(addingAssetForm.getAccount());
-		model.addAttribute("assets", assetsAccountSearch);
-//		 model.addAttribute("assetsEdit", new Asset());
-
-//		 List<Asset> assets =  homePageService.getAllListAsets();
-//		 model.addAttribute("accountsearch", addingAssetForm.getAccount());  
-		// Display list users information from Assets Table
-		List<Asset> assets = homePageService.getAllListAsets();
-//		 model.addAttribute("assets", assets);  
-		model.addAttribute("assetForm", new Asset());
-//		 https://stackoverflow.com/questions/7309259/get-list-of-attributes-of-an-object-in-an-list
-		List<String> lstSite = assets.stream().distinct().map(Asset::getSite).collect(Collectors.toList());
-		Map<String, String> mapSite = lstSite.stream().distinct()
-				.collect(Collectors.toMap(Function.identity(), s -> s));
-		model.addAttribute("mapSite", mapSite);
-		return "home";
-	}
-
-	/* Display list asset for site search */
-	@PostMapping("/searchSiteForm")
-	public String searchFormSite(@ModelAttribute SearchSiteForm searchSiteForm, Model model) throws Exception {
-		/* Create form mapping for site search */
-		model.addAttribute("searchSiteForm", new SearchSiteForm());
-		List<Asset> assets = homePageService.getAllListAsets();
-		List<String> lstSite = assets.stream().distinct().map(Asset::getSite).collect(Collectors.toList());
-		Map<String, String> mapSite = lstSite.stream().distinct()
-				.collect(Collectors.toMap(Function.identity(), s -> s));
-		mapSite.forEach((x, y) -> System.out.println("Key: " + x + ", value: " + y));
-		model.addAttribute("mapSite", mapSite);
-		/* Create form mapping for account search */
-		model.addAttribute("assetForm", new Asset());
-		/* Display list assets for site search */
-		if (!searchSiteForm.getId_site().equals("")) {
-			List<Asset> assetsSiteSearch = homePageService.findBySite(searchSiteForm.getId_site());
-			model.addAttribute("assets", assetsSiteSearch);
+	public String home(@ModelAttribute ConditionSearchForm conditionSearchForm, Model model) throws Exception {
+//		 conditionSearchForm = new ConditionSearchForm();
+		List<DeviceModel> lstDeviceModel = null;
+		// If have condition search
+		if (StringUtils.isNotBlank(conditionSearchForm.getCategoryId())
+				|| StringUtils.isNotBlank(conditionSearchForm.getVersion())
+				|| StringUtils.isNotBlank(conditionSearchForm.getDeviceIdOrName())
+				|| StringUtils.isNotBlank(conditionSearchForm.getSite())
+				|| StringUtils.isNotBlank(conditionSearchForm.getStatus())
+				|| StringUtils.isNotBlank(conditionSearchForm.getBookerId())
+//			|| StringUtils.isNotBlank(conditionSearchForm.getBorrowedTime().toString())
+//			|| StringUtils.isNotBlank(conditionSearchForm.getReturnedTime().toString())
+		) {
+			lstDeviceModel = searchService.getListDeviceByConditionSearch(conditionSearchForm);
 		} else {
-			model.addAttribute("assets", assets);
+			// Get All list devices
+			lstDeviceModel = deviceService.getAllListDevices();
 		}
+		// Get data for form Search
+		DisplaySearchModel displaySearchModel = searchService.getDataFormSearch();
+		List<Category> lstCategory = displaySearchModel.getCategory();
+		List<Booker> lstBooker = displaySearchModel.getBooker();
 
-		/* Display site on select box start */
+		// Convert from model to object form
+		List<DeviceForm> lstDf = lstDeviceModel.stream().map(user -> mapper.map(user, DeviceForm.class))
+				.collect(Collectors.toList());
 
-		/* Display site on select box start */
-		return "home";
-	}
+		// Add data to view
+		model.addAttribute("lstCategory", lstCategory);
+		model.addAttribute("lstBooker", lstBooker);
+		model.addAttribute("devices", lstDf);
+		model.addAttribute("sites", Const.LIST_SITE_MAP);
+		model.addAttribute("statusMap", Const.LIST_STATUS_MAP);
+		model.addAttribute("conditionSearchForm", conditionSearchForm);
 
-	@PostMapping("/getSiteList")
-	public String getSiteList(@ModelAttribute AddingAssetForm addingAssetForm, Model model) throws Exception {
-
-		// Display list users information from Assets Table base on search account
-		List<Asset> assets = homePageService.findByAccount(addingAssetForm.getAccount());
-		model.addAttribute("assets", assets);
-		model.addAttribute("assetsEdit", new Asset());
-		model.addAttribute("assetForm", new Asset());
-//		 List<Asset> assets =  homePageService.getAllListAsets();
-		model.addAttribute("accountsearch", addingAssetForm.getAccount());
-		// Display list users information from Assets Table
-
-		model.addAttribute("assets", assets);
-		return "home";
-	}
-
-//	@RequestMapping(value="/deleteAsset", method=RequestMethod.POST)
-	@GetMapping("/deleteAsset")
-	public String deleteAsset(@PathVariable("id") String id) {
-		System.out.println(id);
-		homePageService.deleteAsset(id);
-		return "redirect:/home";
+		return "home_device";
 	}
 	
-//	   @PostMapping("/deleteBuyer/{id}")
-//	    public String deleteBuyer(@PathVariable Long id){
-//	        buyerService.deleteBuyer(id);
-//	        return "redirect:/";
-//	    }
+	@RequestMapping({ "/bookingDevice" })
+	public String bookingDevice(@RequestParam List<String> deviceId, Model model) throws Exception {
+		List<BookingModel> lstInforBooking = bookingService.getListInforBooking(deviceId);
+		GroupBookingForm bookingForm = new GroupBookingForm();
+		bookingForm.setBkDevices(lstInforBooking);
+		model.addAttribute("bookingForm", bookingForm);
+		return "booking_device";
+
+	}
 	
-	@RequestMapping(value="/editAsset", method=RequestMethod.POST)
-	public String editAsset() {
-		return "edit_asset";
+	@PostMapping({ "/saveBookingDevice" })
+	public String saveBookingDevice(@ModelAttribute GroupBookingForm bookingForm, Model model) throws Exception {		
+		
+		deviceService.updateBooking(bookingForm);
+	
+		System.out.println("groupBookingDeviceForm" + bookingForm);
+				
+		return "after_booking_device";
 	}
 
-
-
-//	@RequestMapping(value="/edit", method=RequestMethod.POST, params="action=cancel")
-//public ModelAndView cancel() {}
-
-	@GetMapping("/customer/{id}/edit")
-	public String edit(@PathVariable int id, Model model) {
-//	     model.addAttribute("customer", customerService.findById(id));
-		return "/edit";
-	}
-
-	// https://stackoverflow.com/questions/41314724/search-via-text-field-and-button-in-spring-mvc-crudrepository-thymeleaf
 
 }
