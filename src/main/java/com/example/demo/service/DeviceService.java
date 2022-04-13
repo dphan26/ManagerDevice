@@ -14,7 +14,6 @@ import com.example.demo.model.DeviceModel;
 @Service
 public interface DeviceService {
 	List<DeviceModel> getAllListDevices() throws Exception;
-
 	void updateBooking(GroupBookingForm bookingForm);
 	
 

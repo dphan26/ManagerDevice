@@ -34,9 +34,11 @@ public class Device {
 	@Column(name = "STATUS")
 	private String status;
 	
-	/*
-	 * @Column(name = "SITE") private String site;
-	 */
+	@Column(name = "SITE")
+	private String site;
+	
+	@Column(name = "REMARK")
+	private String remark;
 
 	// FOREIGN KEY
 	@ManyToOne

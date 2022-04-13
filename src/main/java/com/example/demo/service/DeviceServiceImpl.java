@@ -23,6 +23,7 @@ public class DeviceServiceImpl implements DeviceService {
 
 		List<Device> listDevice = deviceRepository.getAllDevice();
 		List<DeviceModel> listDeviceModel = new ArrayList<DeviceModel>();
+		//convert from entity to model
 		for (Device device : listDevice) {
 			DeviceModel deviceModel = new DeviceModel(device.getId(), device.getDeviceName(), device.getVersion(),
 					device.getBorrowedTime(), device.getReturnedTime(), device.getStatus(), device.getCategory(),
@@ -32,24 +33,17 @@ public class DeviceServiceImpl implements DeviceService {
 		return listDeviceModel;
 	}
 
-	/* @Override 
-	public void updateInforBooking(String id, String version) {
-		// TODO Auto-generated method stub
-		deviceRepository.updateInforBooking(id, version);
-	}*/
-	
 	@Override
 	public void updateBooking(GroupBookingForm bookingForm) {
-		// TODO Auto-generated method stub
-		for(BookingModel bkModel : bookingForm.getBkDevices()) {
+		for (BookingModel bkModel : bookingForm.getBkDevices()) {
 			String id = bkModel.getDevice_id();
 			String status = "Requesting";
 			Date borrowedTime = bkModel.getBorrowedTime();
 			Date returnedTime = bkModel.getReturedTime();
-			
+
 			deviceRepository.updateInforBooking(id, status, borrowedTime, returnedTime);
 		}
-		
+
 	}
 
 }

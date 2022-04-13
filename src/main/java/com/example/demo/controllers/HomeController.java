@@ -51,7 +51,6 @@ public class HomeController {
 
 	@RequestMapping({ "/", "/home" })
 	public String home(@ModelAttribute ConditionSearchForm conditionSearchForm, Model model) throws Exception {
-//		 conditionSearchForm = new ConditionSearchForm();
 		List<DeviceModel> lstDeviceModel = null;
 		// If have condition search
 		if (StringUtils.isNotBlank(conditionSearchForm.getCategoryId())
@@ -60,12 +59,11 @@ public class HomeController {
 				|| StringUtils.isNotBlank(conditionSearchForm.getSite())
 				|| StringUtils.isNotBlank(conditionSearchForm.getStatus())
 				|| StringUtils.isNotBlank(conditionSearchForm.getBookerId())
-//			|| StringUtils.isNotBlank(conditionSearchForm.getBorrowedTime().toString())
-//			|| StringUtils.isNotBlank(conditionSearchForm.getReturnedTime().toString())
-		) {
+				|| (conditionSearchForm.getBorrowedTime()!=null)
+				|| (conditionSearchForm.getReturnedTime()!=null)) {
 			lstDeviceModel = searchService.getListDeviceByConditionSearch(conditionSearchForm);
 		} else {
-			// Get All list devices
+			//Don't have condition search, get all list devices
 			lstDeviceModel = deviceService.getAllListDevices();
 		}
 		// Get data for form Search
@@ -97,16 +95,16 @@ public class HomeController {
 		return "booking_device";
 
 	}
-	
+
 	@PostMapping({ "/saveBookingDevice" })
-	public String saveBookingDevice(@ModelAttribute GroupBookingForm bookingForm, Model model) throws Exception {		
-		
+	public String saveBookingDevice(@ModelAttribute GroupBookingForm bookingForm, Model model) throws Exception {
 		deviceService.updateBooking(bookingForm);
-	
-		System.out.println("groupBookingDeviceForm" + bookingForm);
-				
-		return "after_booking_device";
+		return "redirect:/home";
 	}
 
+	@PostMapping({ "/back" })
+	public String back() throws Exception {
+		return "redirect:/home";
+	}
 
 }
