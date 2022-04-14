@@ -19,7 +19,8 @@ public interface DeviceRepository extends JpaRepository<Device, String> {
 	@Query(value = "select d from Device d JOIN d.category c JOIN d.booker b")
 	List<Device> getAllDevice();
 
-	@Query(value = "select d from Device d JOIN d.category c JOIN d.booker b where d.id IN :ids")
+	//@Query(value = "select d from Device d JOIN d.category c JOIN d.booker b where d.id IN :ids")
+	@Query(value = "select d from Device d where d.id IN :ids")
 	List<Device> getListInforBooking(@Param("ids") List<String> ids);
 
 	@Transactional

@@ -48,4 +48,25 @@ public class Device {
 	@ManyToOne
 	@JoinColumn(name = "BOOKER_ID")
 	private Booker booker;
+
+	public Device() {
+		super();
+	}
+
+	public Device(String id, String deviceName, String version, Date borrowedTime, Date returnedTime, String status,
+			String site, String remark, Category category, Booker booker) {
+		super();
+		this.id = id;
+		this.deviceName = deviceName;
+		this.version = version;
+		this.borrowedTime = borrowedTime;
+		this.returnedTime = returnedTime;
+		this.status = status;
+		this.site = site;
+		this.remark = remark;
+		this.category = category;
+		this.booker = booker;
+	}
+	
+	
 }

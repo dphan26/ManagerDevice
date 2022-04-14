@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.form.GroupBookingForm;
 import com.example.demo.model.DeviceModel;
+import com.example.demo.model.RegisterModel;
 
 
 
@@ -15,6 +16,7 @@ import com.example.demo.model.DeviceModel;
 public interface DeviceService {
 	List<DeviceModel> getAllListDevices() throws Exception;
 	void updateBooking(GroupBookingForm bookingForm);
+	void saveAllRegisterDevice(List<RegisterModel> regModel);
 	
 
 }

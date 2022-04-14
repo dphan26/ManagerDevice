@@ -88,9 +88,9 @@
 			    <td><input type="checkbox" name="deviceId" th:value="${device.id}" /></td> 
 				<td th:text="${device.id}"></td>
 				<td th:text="${device.deviceName}"></td>
-				<td th:text="${device.category.categoryName}"></td>
+				<td th:text="${device.category.categoryName}"></td> 
 				<td th:text="${device.version}"></td>
-				<td th:text="${device.booker.bookerName}"></td>
+				<td th:text="${device.booker!=null}? ${device.booker.bookerName} :''"></td>
 				<td th:text="${device.borrowedTime}"></td>
 				<td th:text="${device.returedTime}"></td>
 				<td th:text="${device.status}"></td>
