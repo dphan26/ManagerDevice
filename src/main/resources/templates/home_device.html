@@ -72,17 +72,17 @@
 	<input type="submit" value="Booking">
 	<br>
 	<br>
-		<table border="1" style="width: 300px">
+		<table border="1">
 			<tr>
 			    <td>Checkbox</td>
-				<td>Device ID</td>
-				<td>Device Name</td>
-				<td>Category</td>
-				<td>Version</td>
-				<td>Booker</td>
-				<td>Borrowed Time</td>
-				<td>Returned Time</td>
-				<td>Status</td>
+				<td  style="width: 80px">Device ID</td>
+				<td  style="width: 80px">Device Name</td>
+				<td style="width: 80px">Category</td>
+				<td  style="width: 80px">Version</td>
+				<td style="width: 80px">Booker</td>
+				<td  style="width: 200px">Borrowed Time</td>
+				<td  style="width: 200px">Returned Time</td>
+				<td  style="width: 80spx">Status</td>
 			</tr>
 			<tr th:each="device : ${devices}">
 			    <td><input type="checkbox" name="deviceId" th:value="${device.id}" /></td> 

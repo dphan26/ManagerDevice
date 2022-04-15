@@ -39,10 +39,10 @@ public class ConditionSearchForm {
 
 	// Search by BorrowedTime
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-	private LocalDateTime borrowedTime;
+	private Date borrowedTime;
 
 	// Search by Returned Time
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-	private LocalDateTime returnedTime;
+	private Date returnedTime;
 
 }

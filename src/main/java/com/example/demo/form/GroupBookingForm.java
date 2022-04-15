@@ -18,7 +18,7 @@ import lombok.Data;
 @Data
 public class GroupBookingForm {
 
-	private List<BookingModel> bkDevices;
+	private List<BookingForm> bkDevices;
 
 
 

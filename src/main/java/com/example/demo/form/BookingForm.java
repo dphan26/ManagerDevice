@@ -1,52 +1,57 @@
 package com.example.demo.form;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.example.demo.entity.Booker;
+import com.example.demo.entity.Category;
+
 import lombok.Data;
 
 /**
  * 
- * Object transfer data between Form and Controller Validation from Form here
+ * Object transfer data between Controller and Entity
  * 
  * @author DoPT
  *
  *
  */
-
 @Data
 public class BookingForm {
 
 	// Device ID
-		private String deviceId;
+	private String device_id;
 
-		// Device Name
-		private String deviceName;
+	// Device Name
+	private String deviceName;
 
-		// version
-		private String version;
+	// version
+	private String version;
 
-		// borrowed Time
-		private String borrowedTime;
+	// borrowed Time
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+	private Date borrowedTime;
 
-		// returned Time
-		private String returedTime;
+	// returned Time
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+	private Date returedTime;
 
-		// status
-		private String remark;
+	// remark
+	private String remark;
 
-		public BookingForm() {
+	public BookingForm() {
 
-		}
+	}
 
-		public BookingForm(String deviceId, String deviceName, String version, String borrowedTime, String returedTime,
-				String remark) {
-			this.deviceId = deviceId;
-			this.deviceName = deviceName;
-			this.version = version;
-			this.borrowedTime = borrowedTime;
-			this.returedTime = returedTime;
-			this.remark = remark;
-		}
-
-
-
+	public BookingForm(String device_id, String deviceName, String version, Date borrowedTime, Date returedTime,
+			String remark) {
+		this.device_id = device_id;
+		this.deviceName = deviceName;
+		this.version = version;
+		this.borrowedTime = borrowedTime;
+		this.returedTime = returedTime;
+		this.remark = remark;
+	}
 
 }

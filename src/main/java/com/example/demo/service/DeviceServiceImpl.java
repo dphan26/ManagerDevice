@@ -9,8 +9,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.constant.Const;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Device;
+import com.example.demo.form.BookingForm;
 import com.example.demo.form.GroupBookingForm;
 import com.example.demo.model.BookingModel;
 import com.example.demo.model.DeviceModel;
@@ -32,24 +34,34 @@ public class DeviceServiceImpl implements DeviceService {
 		List<DeviceModel> listDeviceModel = new ArrayList<DeviceModel>();
 		// convert from entity to model
 		for (Device device : listDevice) {
+			//convert status id -> to status name
+			String status = Const.LIST_STATUS_MAP.get(Integer.valueOf(device.getStatus()));
 			DeviceModel deviceModel = new DeviceModel(device.getId(), device.getDeviceName(), device.getVersion(),
-					device.getBorrowedTime(), device.getReturnedTime(), device.getStatus(), device.getCategory(),
+					device.getBorrowedTime(), device.getReturnedTime(), status, device.getCategory(),
 					device.getBooker());
 			listDeviceModel.add(deviceModel);
 		}
 		return listDeviceModel;
 	}
 
+	//https://www.baeldung.com/spring-data-partial-update : don't got it.
 	@Override
 	public void updateBooking(GroupBookingForm bookingForm) {
-		for (BookingModel bkModel : bookingForm.getBkDevices()) {
+		List<Device> lstDevice = new ArrayList<Device>();
+		// Convert from model to object form
+		List<BookingModel> lstBkModel = bookingForm.getBkDevices().stream().map(user -> mapper.map(user, BookingModel.class))
+							.collect(Collectors.toList());
+		for (BookingModel bkModel : lstBkModel) {
 			String id = bkModel.getDevice_id();
-			String status = "Requesting";
+			String status = "3";
 			Date borrowedTime = bkModel.getBorrowedTime();
 			Date returnedTime = bkModel.getReturedTime();
-
-			deviceRepository.updateInforBooking(id, status, borrowedTime, returnedTime);
+		    String remark = bkModel.getRemark();
+		   // Device dv = new Device(id, borrowedTime, returnedTime, status, remark);
+		   // lstDevice.add(dv);
+			deviceRepository.updateInforBooking(id, status, borrowedTime, returnedTime, remark);
 		}
+		//deviceRepository.saveAll(lstDevice); -> save/update all column of table
 
 	}
 

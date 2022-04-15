@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.constant.Const;
 import com.example.demo.entity.Booker;
 import com.example.demo.entity.Category;
+import com.example.demo.form.BookingForm;
 import com.example.demo.form.ConditionSearchForm;
 import com.example.demo.form.DeviceForm;
 import com.example.demo.form.GroupBookingForm;
@@ -87,13 +88,18 @@ public class HomeController {
 	}
 	
 	@RequestMapping({ "/bookingDevice" })
-	public String bookingDevice(@RequestParam List<String> deviceId, Model model) throws Exception {
-		List<BookingModel> lstInforBooking = bookingService.getListInforBooking(deviceId);
-		GroupBookingForm bookingForm = new GroupBookingForm();
-		bookingForm.setBkDevices(lstInforBooking);
-		model.addAttribute("bookingForm", bookingForm);
-		return "booking_device";
-
+	public String bookingDevice(@RequestParam(required = false) List<String> deviceId, Model model) throws Exception {
+		if (deviceId != null) {
+			List<BookingModel> lstInforBooking = bookingService.getListInforBooking(deviceId);
+			// Convert from model to object form
+			List<BookingForm> lstBkForm = lstInforBooking.stream().map(user -> mapper.map(user, BookingForm.class))
+					.collect(Collectors.toList());
+			GroupBookingForm bookingForm = new GroupBookingForm();
+			bookingForm.setBkDevices(lstBkForm);
+			model.addAttribute("bookingForm", bookingForm);
+			return "booking_device";
+		}
+		return "redirect:/home";
 	}
 
 	@PostMapping({ "/saveBookingDevice" })

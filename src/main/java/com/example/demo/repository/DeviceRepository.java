@@ -25,9 +25,11 @@ public interface DeviceRepository extends JpaRepository<Device, String> {
 
 	@Transactional
 	@Modifying
-    @Query("update Device u set u.status = :status, u.borrowedTime = :borrowedTime, u.returnedTime = :returnedTime where u.id = :id")
+    @Query("update Device u set u.status = :status, u.borrowedTime = :borrowedTime, "
+    		+ "u.returnedTime = :returnedTime, u.remark = :remark where u.id = :id")
     void updateInforBooking(@Param(value = "id") String id, @Param(value = "status") String status,
     		@Param(value = "borrowedTime") Date borrowedTime,
-    		@Param(value = "returnedTime") Date returnedTime); 
+    		@Param(value = "returnedTime") Date returnedTime,
+    		@Param(value = "remark") String remark); 
 
 }

@@ -27,7 +27,7 @@ public class BookingServiceImpl implements BookingService  {
 		List<BookingModel> listBookingModel = new ArrayList<BookingModel>();
 		for (Device device : listInforBooking) {
 			BookingModel bookingModel = new BookingModel(device.getId(), device.getDeviceName(), device.getVersion(),
-					device.getBorrowedTime(), device.getReturnedTime(), null);
+					device.getBorrowedTime(), device.getReturnedTime(), device.getRemark());
 			listBookingModel.add(bookingModel);
 		}	
 		return listBookingModel;

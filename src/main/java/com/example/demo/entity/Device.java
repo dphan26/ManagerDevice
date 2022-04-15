@@ -33,10 +33,8 @@ public class Device {
 
 	@Column(name = "STATUS")
 	private String status;
-	
 	@Column(name = "SITE")
 	private String site;
-	
 	@Column(name = "REMARK")
 	private String remark;
 
@@ -50,12 +48,18 @@ public class Device {
 	private Booker booker;
 
 	public Device() {
-		super();
+	}
+
+	public Device(String id, Date borrowedTime, Date returnedTime, String status, String remark) {
+		this.id = id;
+		this.borrowedTime = borrowedTime;
+		this.returnedTime = returnedTime;
+		this.status = status;
+		this.remark = remark;
 	}
 
 	public Device(String id, String deviceName, String version, Date borrowedTime, Date returnedTime, String status,
 			String site, String remark, Category category, Booker booker) {
-		super();
 		this.id = id;
 		this.deviceName = deviceName;
 		this.version = version;
@@ -67,6 +71,4 @@ public class Device {
 		this.category = category;
 		this.booker = booker;
 	}
-	
-	
 }

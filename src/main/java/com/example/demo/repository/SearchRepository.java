@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -37,8 +38,8 @@ public class SearchRepository {
 		String statusId = conditionSearchForm.getStatus();
 		String bookerId = conditionSearchForm.getBookerId();
 		
-//		String borrowTime = conditionSearchForm.getBorrowedTime().toString();
-//		String returnTime = conditionSearchForm.getReturnedTime().toString();
+		Date borrowTime = conditionSearchForm.getBorrowedTime();
+		Date returnedTime = conditionSearchForm.getReturnedTime();
 
 		/** CriteriaBuilder instance **/
 		CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -63,6 +64,9 @@ public class SearchRepository {
 					(cb.like(root.get("deviceName"), "%" + deviceIdOrName + "%"))));
 		}
 		// search by site
+		if (StringUtils.isNotBlank(site)) {
+			predicates.add(cb.equal(root.get("site"), site));
+		}
 		// not start -> insert the same status to DB
 
 		// search by status
@@ -74,6 +78,18 @@ public class SearchRepository {
 		if (StringUtils.isNotBlank(bookerId)) {
 			predicates.add(cb.equal(root.get("booker").get("id"), bookerId));
 		}
+		
+		// search by borrowedTime or returnedTime returnedTime
+		if (borrowTime!=null && returnedTime != null) {
+			predicates.add(cb.and(cb.greaterThanOrEqualTo(root.<Date>get("borrowedTime"), borrowTime),
+					cb.lessThanOrEqualTo(root.<Date>get("returnedTime"), returnedTime)));
+		} 
+		/*else if (returnedTime==null) {
+			predicates.add(cb.greaterThanOrEqualTo(root.<Date>get("borrowedTime"), borrowTime));
+		} else if (borrowTime == null) {
+			predicates.add(cb.lessThanOrEqualTo(root.<Date>get("returnedTime"), returnedTime));
+		}
+		*/
 
 		cq.where(predicates.toArray(new Predicate[0]));
 

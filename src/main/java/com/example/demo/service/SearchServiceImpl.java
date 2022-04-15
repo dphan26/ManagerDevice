@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.constant.Const;
 import com.example.demo.entity.Booker;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Device;
@@ -53,8 +54,10 @@ public class SearchServiceImpl implements SearchService {
 
 		List<DeviceModel> lstDeviceModel = new ArrayList<DeviceModel>();
 		for (Device dv : lstDevices) {
+			//convert status id -> to status name
+			String status = Const.LIST_STATUS_MAP.get(Integer.valueOf(dv.getStatus()));
 			DeviceModel deviceModel = new DeviceModel(dv.getId(), dv.getDeviceName(), dv.getVersion(),
-					dv.getBorrowedTime(), dv.getReturnedTime(), dv.getStatus(), dv.getCategory(), dv.getBooker());
+					dv.getBorrowedTime(), dv.getReturnedTime(), status, dv.getCategory(), dv.getBooker());
 			lstDeviceModel.add(deviceModel);
 		}
 
