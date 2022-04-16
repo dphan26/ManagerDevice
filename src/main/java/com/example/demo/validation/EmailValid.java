@@ -18,7 +18,7 @@ import java.lang.annotation.ElementType;
 @Constraint(validatedBy = EmailValidator.class)
 public @interface EmailValid
 {
-  String message() default "{email.format}";
+  String message() default "{Not valid date}";
   Class<?>[] groups() default {};
   Class<? extends Payload>[] payload() default {};
 }

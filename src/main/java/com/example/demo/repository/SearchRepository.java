@@ -84,12 +84,12 @@ public class SearchRepository {
 			predicates.add(cb.and(cb.greaterThanOrEqualTo(root.<Date>get("borrowedTime"), borrowTime),
 					cb.lessThanOrEqualTo(root.<Date>get("returnedTime"), returnedTime)));
 		} 
-		/*else if (returnedTime==null) {
+		else if (borrowTime!=null && returnedTime == null) {
 			predicates.add(cb.greaterThanOrEqualTo(root.<Date>get("borrowedTime"), borrowTime));
-		} else if (borrowTime == null) {
+		} else if (returnedTime!=null && borrowTime == null) {
 			predicates.add(cb.lessThanOrEqualTo(root.<Date>get("returnedTime"), returnedTime));
 		}
-		*/
+	
 
 		cq.where(predicates.toArray(new Predicate[0]));
 

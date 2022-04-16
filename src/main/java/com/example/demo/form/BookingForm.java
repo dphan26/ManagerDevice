@@ -2,10 +2,10 @@ package com.example.demo.form;
 
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-import com.example.demo.entity.Booker;
-import com.example.demo.entity.Category;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -30,14 +30,17 @@ public class BookingForm {
 	private String version;
 
 	// borrowed Time
+	@NotNull(message = "borrowedTime not empty")
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private Date borrowedTime;
 
 	// returned Time
+	@NotNull(message = "returedTime not empty")
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private Date returedTime;
 
 	// remark
+	@NotBlank(message = "remark not empty")
 	private String remark;
 
 	public BookingForm() {

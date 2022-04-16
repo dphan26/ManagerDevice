@@ -2,7 +2,7 @@ package com.example.demo.form;
 
 import java.util.List;
 
-import com.example.demo.model.BookingModel;
+import javax.validation.Valid;
 
 import lombok.Data;
 
@@ -16,10 +16,8 @@ import lombok.Data;
  */
 
 @Data
-public class GroupBookingForm {
-
-	private List<BookingForm> bkDevices;
-
-
+public class ListBookingForm {
+	@Valid
+	private List<BookingForm> lstBooking;
 
 }

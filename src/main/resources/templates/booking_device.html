@@ -6,12 +6,12 @@
 <link rel="stylesheet" type="text/css" media="all"
 	href="../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
 </head>
-
-
+;
+<!-- https://www.baeldung.com/thymeleaf-list -->
 
 <body>
 	<h1>Register Device Booking</h1>
-	<form  action="/saveBookingDevice" method="post" th:object="${bookingForm}">
+	<form  action="/saveBookingDevice" method="post" th:object="${listBookingForm}">
 		<br>
 		<table border="1" >
 			<tr>
@@ -21,25 +21,45 @@
 				<td style="width: 100px">To</td>
 				<td style="width: 300px">Remark</td>
 			</tr>
-			<tr th:each="inforBooking, state : *{bkDevices}">
+			<tr th:each="inforBooking, state : *{lstBooking}">
 				<td th:utext="${state.count}">count</td>
 				<td  th:text="|${inforBooking.device_id} ${inforBooking.deviceName} ${inforBooking.version}|"></td> 
-   				<td><input type="datetime-local" th:field="*{bkDevices[__${state.index}__].borrowedTime}" placeholder="From.."/></td>   
-  				<td><input type="datetime-local" th:field="*{bkDevices[__${state.index}__].returedTime}" placeholder="To.."/></td>
-				<td > <input type="text" th:field="*{bkDevices[__${state.index}__].remark}"/></td> 
 				
-				<td > <input type="hidden" th:field="*{bkDevices[__${state.index}__].device_id}" th:value="${inforBooking.device_id}"/></td> 
-				<td > <input type="hidden" th:field="*{bkDevices[__${state.index}__].deviceName}" th:value="${inforBooking.deviceName}"/></td> 
-				<td > <input type="hidden" th:field="*{bkDevices[__${state.index}__].version}" th:value="${inforBooking.version}"/></td> 
+   				<td>
+   				    <input type="datetime-local" th:field="*{lstBooking[__${state.index}__].borrowedTime}" placeholder="From.."/> <br>
+   				    <p th:if="${#fields.hasErrors('*{lstBooking[__${state.index}__].borrowedTime}')}" class="error"
+					th:errors="*{lstBooking[__${state.index}__].borrowedTime}" />
+   				   
+   				</td>   
+  					<td><input type="datetime-local" th:field="*{lstBooking[__${state.index}__].returedTime}" placeholder="To.."/> <br>
+  					<p th:if="${#fields.hasErrors('*{lstBooking[__${state.index}__].returedTime}')}" class="error"
+					th:errors="*{lstBooking[__${state.index}__].returedTime}" />
+  					
+  				</td>
+				<td > 
+				    <input type="text" th:field="*{lstBooking[__${state.index}__].remark}"/>	<br>
+				 	<p th:if="${#fields.hasErrors('*{lstBooking[__${state.index}__].remark}')}" class="error"
+					th:errors="*{lstBooking[__${state.index}__].remark}" />
+				</td>	
+				
+				<td > <input type="hidden" th:field="*{lstBooking[__${state.index}__].device_id}" th:value="${inforBooking.device_id}"/></td> 
+				<td > <input type="hidden" th:field="*{lstBooking[__${state.index}__].deviceName}" th:value="${inforBooking.deviceName}"/></td> 
+				<td > <input type="hidden" th:field="*{lstBooking[__${state.index}__].version}" th:value="${inforBooking.version}"/></td> 
 
 			</tr>
 		</table>
+
 		<br>
 		<br>
 		<button id="btnSearch" type="submit">Register</button>
 		<button type="submit" th:formaction="'/back'">Back</button>
 		<button type="reset">Reset</button>
-	</form>	
-</body>
+	</form>
 
+</body>
+<style>
+    .error {
+        color: red;
+    }
+</style>
 </html>

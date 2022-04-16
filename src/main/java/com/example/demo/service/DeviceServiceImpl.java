@@ -13,7 +13,7 @@ import com.example.demo.constant.Const;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Device;
 import com.example.demo.form.BookingForm;
-import com.example.demo.form.GroupBookingForm;
+import com.example.demo.form.ListBookingForm;
 import com.example.demo.model.BookingModel;
 import com.example.demo.model.DeviceModel;
 import com.example.demo.model.RegisterModel;
@@ -46,10 +46,10 @@ public class DeviceServiceImpl implements DeviceService {
 
 	//https://www.baeldung.com/spring-data-partial-update : don't got it.
 	@Override
-	public void updateBooking(GroupBookingForm bookingForm) {
+	public void updateBooking(ListBookingForm bookingForm) {
 		List<Device> lstDevice = new ArrayList<Device>();
 		// Convert from model to object form
-		List<BookingModel> lstBkModel = bookingForm.getBkDevices().stream().map(user -> mapper.map(user, BookingModel.class))
+		List<BookingModel> lstBkModel = bookingForm.getLstBooking().stream().map(user -> mapper.map(user, BookingModel.class))
 							.collect(Collectors.toList());
 		for (BookingModel bkModel : lstBkModel) {
 			String id = bkModel.getDevice_id();

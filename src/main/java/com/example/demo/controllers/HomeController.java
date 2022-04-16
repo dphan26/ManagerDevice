@@ -3,6 +3,8 @@ package com.example.demo.controllers;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -10,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +25,7 @@ import com.example.demo.entity.Category;
 import com.example.demo.form.BookingForm;
 import com.example.demo.form.ConditionSearchForm;
 import com.example.demo.form.DeviceForm;
-import com.example.demo.form.GroupBookingForm;
+import com.example.demo.form.ListBookingForm;
 import com.example.demo.model.BookingModel;
 import com.example.demo.model.DeviceModel;
 import com.example.demo.model.DisplaySearchModel;
@@ -92,19 +96,24 @@ public class HomeController {
 		if (deviceId != null) {
 			List<BookingModel> lstInforBooking = bookingService.getListInforBooking(deviceId);
 			// Convert from model to object form
-			List<BookingForm> lstBkForm = lstInforBooking.stream().map(user -> mapper.map(user, BookingForm.class))
+			List<BookingForm> listBooking = lstInforBooking.stream().map(user -> mapper.map(user, BookingForm.class))
 					.collect(Collectors.toList());
-			GroupBookingForm bookingForm = new GroupBookingForm();
-			bookingForm.setBkDevices(lstBkForm);
-			model.addAttribute("bookingForm", bookingForm);
+			ListBookingForm listBookingForm = new ListBookingForm();
+			listBookingForm.setLstBooking(listBooking);
+			model.addAttribute("listBookingForm", listBookingForm);
 			return "booking_device";
 		}
 		return "redirect:/home";
 	}
 
 	@PostMapping({ "/saveBookingDevice" })
-	public String saveBookingDevice(@ModelAttribute GroupBookingForm bookingForm, Model model) throws Exception {
-		deviceService.updateBooking(bookingForm);
+	public String saveBookingDevice(@Valid @ModelAttribute ListBookingForm listBookingForm,
+			BindingResult result, Model model) throws Exception {
+		if(result.hasErrors()) {	
+			model.addAttribute("listBookingForm", listBookingForm);
+			return "booking_device";
+		}
+		deviceService.updateBooking(listBookingForm);
 		return "redirect:/home";
 	}
 
