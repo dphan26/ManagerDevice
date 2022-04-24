@@ -14,9 +14,11 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer  {
@@ -62,10 +64,10 @@ public class WebConfig implements WebMvcConfigurer  {
         return viewResolver;
     }    
 
-//    @Override
-//    public void addViewControllers(ViewControllerRegistry registry) {
-//        registry.addViewController("/").setViewName("home/index");
-//    }
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/403").setViewName("403");
+    }
     
 	@Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -98,5 +100,13 @@ public class WebConfig implements WebMvcConfigurer  {
 	       LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
 	       bean.setValidationMessageSource(messageSource());
 	       return bean;
+	   }
+	   
+	   @Bean
+	   public SpringTemplateEngine templateEngine(ITemplateResolver templateResolver, SpringSecurityDialect sec) {
+	       final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+	       templateEngine.setTemplateResolver(templateResolver);
+	       templateEngine.addDialect(sec); // Enable use of "sec"
+	       return templateEngine;
 	   }
 }

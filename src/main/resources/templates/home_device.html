@@ -1,21 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+      
 <head>
 <title th:text="${title}"></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" type="text/css" media="all"
-	href="../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
 </head>
-
-
 
 <body>
 	<h1>Manager Devices</h1>
-	<h2>List Devices</h2>
+<!-- 	<h3 th:inline="text"> Welcom [[${#httpServletRequest.remoteUser}]]</h3> -->
+    Welcome : <span th:utext="${#request.userPrincipal.name}"></span>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Logout" />
+</form>
+	<br>
+<!-- <div sec:authorize ="hasRole('ROLE_ADMIN')">display ADMIN</div>  can't get value  sec:authorize ="hasRole('ROLE_ADMIN')"-->
+<!--  <div sec:authorize ="hasRole('ROLE_USER')">display USER</div> -->
 
-	<h3>Search</h3>
-
-	<!-- 	<form name='search' th:object="${lstSearchForm}" action="#" method="get"> -->
 	<form id="formSearch" name='search' th:object="${conditionSearchForm}"
 		action="/" method="post">
 		<!--Combox display all kind of categories -->
@@ -65,8 +68,6 @@
 	</form>
 	<br>
 	<br>
-	<br>
-
 	<form action="/bookingDevice" method="get" >
 	<br>
 	<input type="submit" value="Booking">
@@ -84,17 +85,19 @@
 				<td  style="width: 200px">Returned Time</td>
 				<td  style="width: 80spx">Status</td>
 			</tr>
-			<tr th:each="device : ${devices}">
-			    <td><input type="checkbox" name="deviceId" th:value="${device.id}" /></td> 
-				<td th:text="${device.id}"></td>
-				<td th:text="${device.deviceName}"></td>
-				<td th:text="${device.category.categoryName}"></td> 
-				<td th:text="${device.version}"></td>
-				<td th:text="${device.booker!=null}? ${device.booker.bookerName} :''"></td>
-				<td th:text="${device.borrowedTime}"></td>
-				<td th:text="${device.returedTime}"></td>
-				<td th:text="${device.status}"></td>
-			</tr>
+			<th:block th:each="device : ${devices}">
+				<tr>
+				    <td><input type="checkbox" name="deviceId" th:value="${device.id}" th:disabled="${device.status == 'Requesting'}"/></td> 
+					<td th:text="${device.id}"></td>
+					<td th:text="${device.deviceName}"></td>
+					<td th:text="${device.category.categoryName}"></td> 
+					<td th:text="${device.version}"></td>
+					<td th:text="${device.booker!=null}? ${device.booker.bookerName} :''"></td>
+					<td th:text="${device.borrowedTime}"></td>
+					<td th:text="${device.returedTime}"></td>
+					<td th:text="${device.status}"></td>					
+				</tr>
+			</th:block>
 		</table>
 	</form>
 
@@ -122,7 +125,11 @@ function resetFunction() {
 }
 </script>
 
-
+<style>
+    .error {
+        color: red;
+    }
+</style>
 </body>
 
 </html>

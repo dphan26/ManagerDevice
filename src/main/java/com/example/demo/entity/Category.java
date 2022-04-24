@@ -24,9 +24,6 @@ public class Category {
 	@Column(name = "CATEGORY_NAME", nullable = false)
 	private String categoryName;
 
-	// @Column(name = "ImageUrl", nullable = true)
-	// private String imageUrl;
-
 	// MAP
 	// One catogory has many devices
 	@OneToMany(mappedBy = "category")

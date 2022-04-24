@@ -34,6 +34,8 @@
   					<td><input type="datetime-local" th:field="*{lstBooking[__${state.index}__].returedTime}" placeholder="To.."/> <br>
   					<p th:if="${#fields.hasErrors('*{lstBooking[__${state.index}__].returedTime}')}" class="error"
 					th:errors="*{lstBooking[__${state.index}__].returedTime}" />
+					<p th:if="${#fields.hasErrors('*{lstBooking[__${state.index}__]}')}" class="error"
+					th:errors="*{lstBooking[__${state.index}__]}" />
   					
   				</td>
 				<td > 

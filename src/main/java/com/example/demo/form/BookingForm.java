@@ -2,10 +2,12 @@ package com.example.demo.form;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.example.demo.validation.RemarkValid;
+import com.example.demo.validation.ValidateDateRange;
 
 import lombok.Data;
 
@@ -18,6 +20,7 @@ import lombok.Data;
  *
  */
 @Data
+@ValidateDateRange(start="borrowedTime", end="returedTime")
 public class BookingForm {
 
 	// Device ID
@@ -40,8 +43,9 @@ public class BookingForm {
 	private Date returedTime;
 
 	// remark
-	@NotBlank(message = "remark not empty")
+	@RemarkValid
 	private String remark;
+
 
 	public BookingForm() {
 

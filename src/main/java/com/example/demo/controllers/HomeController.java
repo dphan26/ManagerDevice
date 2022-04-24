@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,10 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.constant.Const;
@@ -32,15 +34,15 @@ import com.example.demo.model.DisplaySearchModel;
 import com.example.demo.service.BookingService;
 import com.example.demo.service.DeviceService;
 import com.example.demo.service.SearchService;
-
+//https://www.codejava.net/frameworks/spring-boot/spring-boot-security-authentication-with-jpa-hibernate-and-mysql
 //https://techmaster.vn/posts/36183/spring-boot-12-spring-jpa-method-atquery
 //https://www.baeldung.com/jpa-return-multiple-entities
 //https://www.baeldung.com/java-modelmapper-lists
-
+//https://levunguyen.com/laptrinhspring/2020/04/21/su-dung-spring-security-trong-spring/#:~:text=3.-,H%C6%B0%E1%BB%9Bng%20d%E1%BA%ABn%20x%C3%A2y%20d%E1%BB%B1ng%20%E1%BB%A9ng%20d%E1%BB%A5ng%20Spring%20Security,file%20configure%20c%E1%BB%A7a%20spring%20security%20.
 @Controller
 public class HomeController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
-
+	
 	@Autowired
 	private ModelMapper mapper;
 
@@ -53,9 +55,10 @@ public class HomeController {
 	@Autowired
 	private BookingService bookingService;
 	
-
-	@RequestMapping({ "/", "/home" })
-	public String home(@ModelAttribute ConditionSearchForm conditionSearchForm, Model model) throws Exception {
+	@RequestMapping(value = {"/", "/home" }, method = { RequestMethod.GET, RequestMethod.POST })
+	public String home(@ModelAttribute ConditionSearchForm conditionSearchForm, 
+			Model model, Principal principal) throws Exception {
+		
 		List<DeviceModel> lstDeviceModel = null;
 		// If have condition search
 		if (StringUtils.isNotBlank(conditionSearchForm.getCategoryId())
@@ -87,11 +90,12 @@ public class HomeController {
 		model.addAttribute("sites", Const.LIST_SITE_MAP);
 		model.addAttribute("statusMap", Const.LIST_STATUS_MAP);
 		model.addAttribute("conditionSearchForm", conditionSearchForm);
+		model.addAttribute("principal", principal);
 
 		return "home_device";
 	}
 	
-	@RequestMapping({ "/bookingDevice" })
+	@GetMapping(value = {"/bookingDevice"})
 	public String bookingDevice(@RequestParam(required = false) List<String> deviceId, Model model) throws Exception {
 		if (deviceId != null) {
 			List<BookingModel> lstInforBooking = bookingService.getListInforBooking(deviceId);
@@ -106,7 +110,7 @@ public class HomeController {
 		return "redirect:/home";
 	}
 
-	@PostMapping({ "/saveBookingDevice" })
+	@PostMapping({"/saveBookingDevice"})
 	public String saveBookingDevice(@Valid @ModelAttribute ListBookingForm listBookingForm,
 			BindingResult result, Model model) throws Exception {
 		if(result.hasErrors()) {	
@@ -121,5 +125,7 @@ public class HomeController {
 	public String back() throws Exception {
 		return "redirect:/home";
 	}
+	
+	
 
 }
