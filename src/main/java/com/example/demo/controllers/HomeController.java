@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.constant.Const;
-import com.example.demo.entity.Booker;
+import com.example.demo.entity.TbUser;
 import com.example.demo.entity.Category;
 import com.example.demo.form.BookingForm;
 import com.example.demo.form.ConditionSearchForm;
@@ -77,7 +77,7 @@ public class HomeController {
 		// Get data for form Search
 		DisplaySearchModel displaySearchModel = searchService.getDataFormSearch();
 		List<Category> lstCategory = displaySearchModel.getCategory();
-		List<Booker> lstBooker = displaySearchModel.getBooker();
+		List<TbUser> lstBooker = displaySearchModel.getBooker();
 
 		// Convert from model to object form
 		List<DeviceForm> lstDf = lstDeviceModel.stream().map(user -> mapper.map(user, DeviceForm.class))

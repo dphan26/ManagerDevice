@@ -45,7 +45,7 @@ public class Device {
 
 	@ManyToOne
 	@JoinColumn(name = "BOOKER_ID")
-	private Booker booker;
+	private TbUser booker;
 
 	public Device() {
 	}
@@ -59,7 +59,7 @@ public class Device {
 	}
 
 	public Device(String id, String deviceName, String version, Date borrowedTime, Date returnedTime, String status,
-			String site, String remark, Category category, Booker booker) {
+			String site, String remark, Category category, TbUser booker) {
 		this.id = id;
 		this.deviceName = deviceName;
 		this.version = version;

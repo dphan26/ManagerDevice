@@ -14,15 +14,21 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "BOOKERS")
-public class Booker {
+@Table(name = "TBUSER")
+public class TbUser {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", nullable = false)
 	private Integer id;
 
-	@Column(name = "BOOKER_NAME", nullable = false)
-	private String bookerName;
+	@Column(name = "USER_NAME", nullable = false)
+	private String userName;
+	
+	@Column(name = "PASSWORD", nullable = false)
+	private String password;
+	
+	@Column(name = "ROLE", nullable = false)
+	private String role;
 
 //  MAP
 	@OneToMany(mappedBy = "booker")

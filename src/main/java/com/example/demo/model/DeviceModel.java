@@ -2,7 +2,7 @@ package com.example.demo.model;
 
 import java.util.Date;
 
-import com.example.demo.entity.Booker;
+import com.example.demo.entity.TbUser;
 import com.example.demo.entity.Category;
 
 import lombok.Data;
@@ -40,14 +40,14 @@ public class DeviceModel {
 		 private Category category;
 		 
 		 //booker
-		 private Booker booker;
+		 private TbUser booker;
 
 		public DeviceModel() {
 			
 		}
 
 		public DeviceModel(String id, String deviceName, String version, Date borrowedTime, Date returedTime,
-				String status, Category category, Booker booker) {			
+				String status, Category category, TbUser booker) {			
 			this.id = id;
 			this.deviceName = deviceName;
 			this.version = version;

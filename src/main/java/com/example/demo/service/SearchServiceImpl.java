@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.constant.Const;
-import com.example.demo.entity.Booker;
+import com.example.demo.entity.TbUser;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Device;
 import com.example.demo.form.ConditionSearchForm;
@@ -37,7 +37,7 @@ public class SearchServiceImpl implements SearchService {
 	public DisplaySearchModel getDataFormSearch() throws Exception {
 
 		List<Category> lstCtgry = categoryRepository.findAll();
-		List<Booker> lstBooker = bookerRepository.findAll();
+		List<TbUser> lstBooker = bookerRepository.findAll();
 
 		DisplaySearchModel displaySearchModel = new DisplaySearchModel();
 		// Convert from result respository(entity) to object form
