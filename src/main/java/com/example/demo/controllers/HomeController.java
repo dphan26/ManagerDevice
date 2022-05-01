@@ -11,6 +11,8 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.constant.Const;
-import com.example.demo.entity.Booker;
+import com.example.demo.entity.TblUser;
 import com.example.demo.entity.Category;
 import com.example.demo.form.BookingForm;
 import com.example.demo.form.ConditionSearchForm;
@@ -33,6 +35,7 @@ import com.example.demo.model.DeviceModel;
 import com.example.demo.model.DisplaySearchModel;
 import com.example.demo.service.BookingService;
 import com.example.demo.service.DeviceService;
+import com.example.demo.service.MyUserDetails;
 import com.example.demo.service.SearchService;
 //https://www.codejava.net/frameworks/spring-boot/spring-boot-security-authentication-with-jpa-hibernate-and-mysql
 //https://techmaster.vn/posts/36183/spring-boot-12-spring-jpa-method-atquery
@@ -57,8 +60,8 @@ public class HomeController {
 	
 	@RequestMapping(value = {"/", "/home" }, method = { RequestMethod.GET, RequestMethod.POST })
 	public String home(@ModelAttribute ConditionSearchForm conditionSearchForm, 
-			Model model, Principal principal) throws Exception {
-		
+			Model model, Authentication authentication) throws Exception {
+		MyUserDetails inforUser = (MyUserDetails) authentication.getPrincipal();
 		List<DeviceModel> lstDeviceModel = null;
 		// If have condition search
 		if (StringUtils.isNotBlank(conditionSearchForm.getCategoryId())
@@ -77,7 +80,7 @@ public class HomeController {
 		// Get data for form Search
 		DisplaySearchModel displaySearchModel = searchService.getDataFormSearch();
 		List<Category> lstCategory = displaySearchModel.getCategory();
-		List<Booker> lstBooker = displaySearchModel.getBooker();
+		List<TblUser> lstUser = displaySearchModel.getUser();
 
 		// Convert from model to object form
 		List<DeviceForm> lstDf = lstDeviceModel.stream().map(user -> mapper.map(user, DeviceForm.class))
@@ -85,12 +88,12 @@ public class HomeController {
 
 		// Add data to view
 		model.addAttribute("lstCategory", lstCategory);
-		model.addAttribute("lstBooker", lstBooker);
+		model.addAttribute("lstUser", lstUser);
 		model.addAttribute("devices", lstDf);
 		model.addAttribute("sites", Const.LIST_SITE_MAP);
 		model.addAttribute("statusMap", Const.LIST_STATUS_MAP);
 		model.addAttribute("conditionSearchForm", conditionSearchForm);
-		model.addAttribute("principal", principal);
+		model.addAttribute("inforUser", inforUser);
 
 		return "home_device";
 	}

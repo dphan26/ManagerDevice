@@ -2,7 +2,7 @@ package com.example.demo.form;
 
 import java.util.Date;
 
-import com.example.demo.entity.Booker;
+import com.example.demo.entity.TblUser;
 import com.example.demo.entity.Category;
 
 import lombok.Data;
@@ -41,6 +41,6 @@ public class DeviceForm {
 	private Category category;
 
 	// booker
-	private Booker booker;
+	private TblUser user;
 
 }

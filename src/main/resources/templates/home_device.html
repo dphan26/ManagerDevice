@@ -48,11 +48,11 @@
 			<option th:each="key : ${statusMap.keySet()}" th:value="${key}"
 				th:utext="${statusMap.get(key)}"></option>
 		</select>
-		<!--Combox display for User -->
+		<!--Combox display for User  -->
 		<select th:field="*{bookerId}">
 			<option value="">By User</option>
-			<option th:each="bk: ${lstBooker}" th:value="${bk.id}"
-				th:utext="${bk.bookerName}"></option>
+			<option th:each="bk: ${lstUser}" th:value="${bk.id}"
+				th:utext="${bk.userName}"></option>
 		</select> 
 		
 		<input type="datetime-local" th:field="*{borrowedTime}"
@@ -76,14 +76,14 @@
 		<table border="1">
 			<tr>
 			    <td>Checkbox</td>
-				<td  style="width: 80px">Device ID</td>
-				<td  style="width: 80px">Device Name</td>
-				<td style="width: 80px">Category</td>
-				<td  style="width: 80px">Version</td>
-				<td style="width: 80px">Booker</td>
-				<td  style="width: 200px">Borrowed Time</td>
-				<td  style="width: 200px">Returned Time</td>
-				<td  style="width: 80spx">Status</td>
+				<td  style="width: 80 px">Device ID</td>
+				<td  style="width: 8 0px">Device Name</td>
+				<td style="width: 80 px">Category</td>
+				<td  style="width: 80 px">Version</td>
+				<td style="width: 80 px">Booker</td>
+				<td  style="width: 200 px">Borrowed Time</td>
+				<td  style="width: 200 px">Returned Time</td>
+				<td  style="width: 80 px">Status</td>
 			</tr>
 			<th:block th:each="device : ${devices}">
 				<tr>
@@ -92,7 +92,7 @@
 					<td th:text="${device.deviceName}"></td>
 					<td th:text="${device.category.categoryName}"></td> 
 					<td th:text="${device.version}"></td>
-					<td th:text="${device.booker!=null}? ${device.booker.bookerName} :''"></td>
+					<td th:text="${device.user!=null}? ${device.user.userName} :''"></td>
 					<td th:text="${device.borrowedTime}"></td>
 					<td th:text="${device.returedTime}"></td>
 					<td th:text="${device.status}"></td>					

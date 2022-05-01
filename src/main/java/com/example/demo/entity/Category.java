@@ -21,7 +21,7 @@ public class Category {
 	@Column(name = "ID", nullable = false)
 	private Integer id;
 
-	@Column(name = "CATEGORY_NAME", nullable = false)
+	@Column(name = "CATEGORY_NAME")
 	private String categoryName;
 
 	// MAP

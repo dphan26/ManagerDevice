@@ -17,6 +17,7 @@ public class Const {
 		LIST_SITE_MAP.put(1, "Ha Noi");
 		LIST_SITE_MAP.put(2, "Da Nang");
 		LIST_SITE_MAP.put(3, "Ho Chi Minh");
+		LIST_SITE_MAP.put(4, "Can Tho");
 	}
 
 }

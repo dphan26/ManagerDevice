@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.TblUser;
 import com.example.demo.repository.UserRepository;
@@ -20,7 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     @Override
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
-        TblUser user = userRepository.getUserByUsername(username);
+    	TblUser user = userRepository.getUserByUsername(username);
          
         if (user == null) {
             throw new UsernameNotFoundException("Could not find user");

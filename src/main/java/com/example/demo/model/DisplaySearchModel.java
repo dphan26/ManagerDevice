@@ -2,7 +2,7 @@ package com.example.demo.model;
 
 import java.util.List;
 
-import com.example.demo.entity.Booker;
+import com.example.demo.entity.TblUser;
 import com.example.demo.entity.Category;
 
 import lombok.Data;
@@ -21,15 +21,15 @@ public class DisplaySearchModel {
 	private List<Category> category;
 
 	// Display list booker
-	private List<Booker> booker;
+	private List<TblUser> user;
 
 	public DisplaySearchModel() {
 
 	}
 
-	public DisplaySearchModel(List<Category> category, List<Booker> booker) {
+	public DisplaySearchModel(List<Category> category, List<TblUser> user) {
 		this.category = category;
-		this.booker = booker;
+		this.user = user;
 	}
 
 }

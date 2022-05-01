@@ -12,6 +12,6 @@ import com.example.demo.entity.TblUser;
 @Repository
 public interface UserRepository extends JpaRepository<TblUser, Integer> {
 	
-	@Query("SELECT u FROM TblUser u WHERE u.username = :username")
+	@Query("SELECT u FROM TblUser u WHERE u.userName = :username")
     public TblUser getUserByUsername(@Param("username") String username);
 }

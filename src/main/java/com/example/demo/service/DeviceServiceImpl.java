@@ -38,7 +38,7 @@ public class DeviceServiceImpl implements DeviceService {
 			String status = Const.LIST_STATUS_MAP.get(Integer.valueOf(device.getStatus()));
 			DeviceModel deviceModel = new DeviceModel(device.getId(), device.getDeviceName(), device.getVersion(),
 					device.getBorrowedTime(), device.getReturnedTime(), status, device.getCategory(),
-					device.getBooker());
+					device.getUser());
 			listDeviceModel.add(deviceModel);
 		}
 		return listDeviceModel;

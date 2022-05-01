@@ -76,7 +76,7 @@ public class SearchRepository {
 		}
 		// search by user(booker)
 		if (StringUtils.isNotBlank(bookerId)) {
-			predicates.add(cb.equal(root.get("booker").get("id"), bookerId));
+			predicates.add(cb.equal(root.get("user").get("id"), bookerId));
 		}
 		
 		// search by borrowedTime or returnedTime returnedTime

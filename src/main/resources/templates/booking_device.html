@@ -44,9 +44,9 @@
 					th:errors="*{lstBooking[__${state.index}__].remark}" />
 				</td>	
 				
-				<td > <input type="hidden" th:field="*{lstBooking[__${state.index}__].device_id}" th:value="${inforBooking.device_id}"/></td> 
-				<td > <input type="hidden" th:field="*{lstBooking[__${state.index}__].deviceName}" th:value="${inforBooking.deviceName}"/></td> 
-				<td > <input type="hidden" th:field="*{lstBooking[__${state.index}__].version}" th:value="${inforBooking.version}"/></td> 
+				 <input type="hidden" th:field="*{lstBooking[__${state.index}__].device_id}" th:value="${inforBooking.device_id}"/>
+				 <input type="hidden" th:field="*{lstBooking[__${state.index}__].deviceName}" th:value="${inforBooking.deviceName}"/>
+				<input type="hidden" th:field="*{lstBooking[__${state.index}__].version}" th:value="${inforBooking.version}"/>
 
 			</tr>
 		</table>

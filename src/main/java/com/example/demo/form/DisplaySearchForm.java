@@ -2,7 +2,7 @@ package com.example.demo.form;
 
 import java.util.List;
 
-import com.example.demo.entity.Booker;
+import com.example.demo.entity.TblUser;
 import com.example.demo.entity.Category;
 
 import lombok.Data;
@@ -23,6 +23,6 @@ public class DisplaySearchForm {
 	private List<Category> category;
 	
 	//Display list booker
-	private List<Booker> booker;
+	private List<TblUser> booker;
 
 }
