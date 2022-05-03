@@ -49,19 +49,17 @@
 					th:utext="${statusMap.get(key)}"></option>
 			</select>
 			<!--Combox display for User  -->
-			<th:block th:if="${inforUser.user.role == 'ROLE_ADMIN'}">
-				<select th:field="*{bookerId}">
+				<select th:disabled="${inforUser.user.role != 'ROLE_ADMIN'}" th:field="*{bookerId}">
 					<option value="">By User</option>
 					<option th:each="bk: ${lstUser}" th:value="${bk.id}"
 						th:utext="${bk.userName}"></option>
 				</select>
 
-				<input type="datetime-local" th:field="*{borrowedTime}"
+				<input th:disabled="${inforUser.user.role != 'ROLE_ADMIN'}" type="datetime-local" th:field="*{borrowedTime}"
 					placeholder="From.." />
 
-				<input type="datetime-local" th:field="*{returnedTime}"
+				<input th:disabled="${inforUser.user.role != 'ROLE_ADMIN'}" type="datetime-local" th:field="*{returnedTime}"
 					placeholder="To.." />
-			</th:block>
 		</div>		
 		<br> <br>
 		<button id="btnSearch" type="submit">Search</button>
