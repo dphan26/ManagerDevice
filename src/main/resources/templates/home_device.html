@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" 
-	  xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-      
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 <head>
 <title th:text="${title}"></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -10,126 +10,137 @@
 
 <body>
 	<h1>Manager Devices</h1>
-<!-- 	<h3 th:inline="text"> Welcom [[${#httpServletRequest.remoteUser}]]</h3> -->
-    Welcome : <span th:utext="${#request.userPrincipal.name}"></span>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Logout" />
-</form>
+	Welcome :
+	<span th:utext="${#request.userPrincipal.name}"></span>
+	<form th:action="@{/logout}" method="post">
+		<input type="submit" value="Logout" />
+	</form>
 	<br>
-<!-- <div sec:authorize ="hasRole('ROLE_ADMIN')">display ADMIN</div>  can't get value  sec:authorize ="hasRole('ROLE_ADMIN')"-->
-<!--  <div sec:authorize ="hasRole('ROLE_USER')">display USER</div> -->
-
 	<form id="formSearch" name='search' th:object="${conditionSearchForm}"
 		action="/" method="post">
 		<!--Combox display all kind of categories -->
-		<select th:field="*{categoryId}">
-			<option value="">All Category</option>
-			<option th:each="category : ${lstCategory}" th:value="${category.id}"
-				th:utext="${category.categoryName}"></option>
-		</select>
+		<div>
+			<select th:field="*{categoryId}">
+				<option value="">All Category</option>
+				<option th:each="category : ${lstCategory}"
+					th:value="${category.id}" th:utext="${category.categoryName}"></option>
+			</select>
 
-		<!-- Textbox for version -->
-		<input type="text" th:field="*{version}"
-			th:value="${conditionSearchForm.version}" placeholder="By Version" />
+			<!-- Textbox for version -->
+			<input type="text" th:field="*{version}"
+				th:value="${conditionSearchForm.version}" placeholder="By Version" />
 
-		<!-- Textbox for device Id Or Name -->
-		<input type="text" th:field="*{deviceIdOrName}"
-			th:value="${conditionSearchForm.deviceIdOrName}"
-			placeholder="Device Id Or Name.." /> <br>
-		<!--Combox display for Site -->
-		<select th:field="*{site}">
-			<option value="">By Site</option>
-			<option th:each="key : ${sites.keySet()}" th:value="${key}"
-				th:utext="${sites.get(key)}"></option>
-		</select>
-		<!--Combox display for Status -->
-		<select th:field="*{status}">
-			<option value="">By Status</option>
-			<option th:each="key : ${statusMap.keySet()}" th:value="${key}"
-				th:utext="${statusMap.get(key)}"></option>
-		</select>
-		<!--Combox display for User  -->
-		<select th:field="*{bookerId}">
-			<option value="">By User</option>
-			<option th:each="bk: ${lstUser}" th:value="${bk.id}"
-				th:utext="${bk.userName}"></option>
-		</select> 
-		
-		<input type="datetime-local" th:field="*{borrowedTime}"
-			placeholder="From.." /> 
-			
-		<input type="datetime-local"
-			th:field="*{returnedTime}" placeholder="To.." /> 
-			<br>
-			 <br>
+			<!-- Textbox for device Id Or Name -->
+			<input type="text" th:field="*{deviceIdOrName}"
+				th:value="${conditionSearchForm.deviceIdOrName}"
+				placeholder="Device Id Or Name.." />
+		</div><br>
+		<div>
+			<!--Combox display for Site -->
+			<select th:field="*{site}">
+				<option value="">By Site</option>
+				<option th:each="key : ${sites.keySet()}" th:value="${key}"
+					th:utext="${sites.get(key)}"></option>
+			</select>
+			<!--Combox display for Status -->
+			<select th:field="*{status}">
+				<option value="">By Status</option>
+				<option th:each="key : ${statusMap.keySet()}" th:value="${key}"
+					th:utext="${statusMap.get(key)}"></option>
+			</select>
+			<!--Combox display for User  -->
+			<th:block th:if="${inforUser.user.role == 'ROLE_ADMIN'}">
+				<select th:field="*{bookerId}">
+					<option value="">By User</option>
+					<option th:each="bk: ${lstUser}" th:value="${bk.id}"
+						th:utext="${bk.userName}"></option>
+				</select>
+
+				<input type="datetime-local" th:field="*{borrowedTime}"
+					placeholder="From.." />
+
+				<input type="datetime-local" th:field="*{returnedTime}"
+					placeholder="To.." />
+			</th:block>
+		</div>		
+		<br> <br>
 		<button id="btnSearch" type="submit">Search</button>
 		<button type="button" onclick="resetFunction();">Reset form</button>
-		<br> <br>		
+		<br> <br>
 	</form>
 	<br>
 	<br>
-	<form action="/bookingDevice" method="get" >
-	<br>
-	<input type="submit" value="Booking">
-	<br>
-	<br>
+	<form name="listDevice" action="/bookingDevice" method="get">
+		<br> <input type="submit" value="Booking"> <br> <br>
 		<table border="1">
 			<tr>
-			    <td>Checkbox</td>
-				<td  style="width: 80 px">Device ID</td>
-				<td  style="width: 8 0px">Device Name</td>
-				<td style="width: 80 px">Category</td>
-				<td  style="width: 80 px">Version</td>
-				<td style="width: 80 px">Booker</td>
-				<td  style="width: 200 px">Borrowed Time</td>
-				<td  style="width: 200 px">Returned Time</td>
-				<td  style="width: 80 px">Status</td>
+				<td>Checkbox</td>
+				<td style="width: 30px">Device ID</td>
+				<td style="width: 120px">Device Name</td>
+				<td style="width: 150px">Category</td>
+				<td style="width: 120px">Version</td>
+				<td style="width: 120px">Booker</td>
+				<td style="width: 200px">Borrowed Time</td>
+				<td style="width: 200px">Returned Time</td>
+				<td style="width: 150px">Status</td>
 			</tr>
 			<th:block th:each="device : ${devices}">
 				<tr>
-				    <td><input type="checkbox" name="deviceId" th:value="${device.id}" th:disabled="${device.status == 'Requesting'}"/></td> 
+					<td><input type="checkbox" name="deviceId"
+						th:value="${device.id}"
+						th:disabled="${device.status == 'Requesting'}" /></td>
 					<td th:text="${device.id}"></td>
 					<td th:text="${device.deviceName}"></td>
-					<td th:text="${device.category.categoryName}"></td> 
+					<td
+						th:text="${device.category!=null}? ${device.category.categoryName} :''"></td>
 					<td th:text="${device.version}"></td>
 					<td th:text="${device.user!=null}? ${device.user.userName} :''"></td>
 					<td th:text="${device.borrowedTime}"></td>
-					<td th:text="${device.returedTime}"></td>
-					<td th:text="${device.status}"></td>					
+					<td th:text="${device.returnedTime}"></td>
+					<td th:text="${device.status}"></td>
 				</tr>
 			</th:block>
 		</table>
 	</form>
 
+	<br>
+	<footer style="font-size: large" class="panel-footer">
+		Total Items [[${totalItems}]] <span th:if="${totalPages} > 0">:
+			Page [[${currentPage}]] of [[${totalPages}]] &nbsp; - &nbsp; </span> <span
+			th:if="${totalPages} > 0"
+			th:each="i: ${#numbers.sequence(1, totalPages)}"> <a
+			th:href="@{'/devices/page/' + ${i}}">[[${i}]]</a> &nbsp; &nbsp;
+		</span>
+	</footer>
+
 	<script>
-function resetFunction() {
-	 var dropDownCtgr = document.getElementById("categoryId");
-	 dropDownCtgr.selectedIndex = 0;
-	 
-	 var dropDownSite = document.getElementById("site");
-	 dropDownSite.selectedIndex = 0;
-	 
-	 var dropDownStatus = document.getElementById("status");
-	 dropDownStatus.selectedIndex = 0;
-	 
-	 var dropDownBookerId = document.getElementById("bookerId");
-	 dropDownBookerId.selectedIndex = 0;
-	 
-     document.querySelector("#formSearch input[name='version']").value = "";
-     document.querySelector("#formSearch input[name='deviceIdOrName']").value = "";
-     document.querySelector("#formSearch input[name='borrowedTime']").value = "";
-     document.querySelector("#formSearch input[name='returnedTime']").value = "";
-   
-     document.getElementById("btnSearch").click();
-  
-}
-</script>
+		function resetFunction() {
+			var dropDownCtgr = document.getElementById("categoryId");
+			dropDownCtgr.selectedIndex = 0;
 
-<style>
-    .error {
-        color: red;
-    }
-</style>
+			var dropDownSite = document.getElementById("site");
+			dropDownSite.selectedIndex = 0;
+
+			var dropDownStatus = document.getElementById("status");
+			dropDownStatus.selectedIndex = 0;
+
+			var dropDownBookerId = document.getElementById("bookerId");
+			dropDownBookerId.selectedIndex = 0;
+
+			document.querySelector("#formSearch input[name='version']").value = "";
+			document.querySelector("#formSearch input[name='deviceIdOrName']").value = "";
+			document.querySelector("#formSearch input[name='borrowedTime']").value = "";
+			document.querySelector("#formSearch input[name='returnedTime']").value = "";
+
+			document.getElementById("btnSearch").click();
+
+		}
+	</script>
+
 </body>
-
+<style>
+.error {
+	color: red;
+}
+</style>
 </html>

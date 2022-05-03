@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.constant.Const;
@@ -47,21 +48,13 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 	@Override
-	public List<DeviceModel> getListDeviceByConditionSearch(ConditionSearchForm conditionSearchForm) {
+	public Page<DeviceModel> getListDeviceByConditionSearch(ConditionSearchForm conditionSearchForm) {
 		// TODO Auto-generated method stub
 
-		List<Device> lstDevices = searchRepository.findBooksByAuthorNameAndTitle(conditionSearchForm);
+		Page<Device> lstDevices = searchRepository.findDeviceByConditionSearch(conditionSearchForm);
+		Page<DeviceModel> listDeviceModel = lstDevices.map(obj -> new DeviceModel(obj));
 
-		List<DeviceModel> lstDeviceModel = new ArrayList<DeviceModel>();
-		for (Device dv : lstDevices) {
-			//convert status id -> to status name
-			String status = Const.LIST_STATUS_MAP.get(Integer.valueOf(dv.getStatus()));
-			DeviceModel deviceModel = new DeviceModel(dv.getId(), dv.getDeviceName(), dv.getVersion(),
-					dv.getBorrowedTime(), dv.getReturnedTime(), status, dv.getCategory(), dv.getUser());
-			lstDeviceModel.add(deviceModel);
-		}
-
-		return lstDeviceModel;
+		return listDeviceModel;
 	}
 
 }

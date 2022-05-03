@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.example.demo.entity.TblUser;
 import com.example.demo.entity.Category;
+import com.example.demo.entity.Device;
 
 import lombok.Data;
 
@@ -31,7 +32,7 @@ public class DeviceModel {
 		private Date borrowedTime;
 		
 		//returned Time
-		private Date returedTime;	
+		private Date returnedTime;	
 		
 		// status 
 		private String status;
@@ -41,10 +42,7 @@ public class DeviceModel {
 		 
 		 //booker
 		 private TblUser user;
-
-		public DeviceModel() {
-			
-		}
+		 
 
 		public DeviceModel(String id, String deviceName, String version, Date borrowedTime, Date returedTime,
 				String status, Category category, TblUser user) {			
@@ -52,11 +50,26 @@ public class DeviceModel {
 			this.deviceName = deviceName;
 			this.version = version;
 			this.borrowedTime = borrowedTime;
-			this.returedTime = returedTime;
+			this.returnedTime = returedTime;
 			this.status = status;
 			this.category = category;
 			this.user = user;
 		}
+
+
+		public DeviceModel(Device obj) {
+			this.id = obj.getId();
+			this.deviceName =obj.getDeviceName();
+			this.version = obj.getVersion();
+			this.borrowedTime = obj.getBorrowedTime();
+			this.returnedTime = obj.getReturnedTime();
+			this.category = obj.getCategory();
+			this.user = obj.getUser();
+			this.status = obj.getStatus();
+			// TODO Auto-generated constructor stub
+		}
+
+
 		
 }
 

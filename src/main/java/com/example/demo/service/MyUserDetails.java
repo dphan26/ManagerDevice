@@ -9,55 +9,54 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.demo.entity.TblUser;
 
-public class MyUserDetails implements UserDetails{
+
+public class MyUserDetails implements UserDetails {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4147086559673941772L;
-	
-	private TblUser user;
-    
-    public MyUserDetails(TblUser user) {
-        this.user = user;
-    }
- 
+
+	public TblUser user;
+
+	public MyUserDetails(TblUser user) {
+		this.user = user;
+	}
 
 	@Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
-        return Arrays.asList(authority);
-    }
- 
-    @Override
-    public String getPassword() {
-        return user.getPassword();
-    }
- 
-    @Override
-    public String getUsername() {
-        return user.getUserName();
-    }
- 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
- 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
- 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
- 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
+		return Arrays.asList(authority);
+	}
 
+	@Override
+	public String getPassword() {
+		return user.getPassword();
+	}
+
+	@Override
+	public String getUsername() {
+		return user.getUserName();
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 
 
 }

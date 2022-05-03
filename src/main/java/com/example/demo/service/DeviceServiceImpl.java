@@ -5,8 +5,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.constant.Const;
@@ -44,7 +48,6 @@ public class DeviceServiceImpl implements DeviceService {
 		return listDeviceModel;
 	}
 
-	//https://www.baeldung.com/spring-data-partial-update : don't got it.
 	@Override
 	public void updateBooking(ListBookingForm bookingForm) {
 		List<Device> lstDevice = new ArrayList<Device>();
@@ -53,7 +56,7 @@ public class DeviceServiceImpl implements DeviceService {
 							.collect(Collectors.toList());
 		for (BookingModel bkModel : lstBkModel) {
 			String id = bkModel.getDevice_id();
-			String status = "3";
+			String status = "Requesting";
 			Date borrowedTime = bkModel.getBorrowedTime();
 			Date returnedTime = bkModel.getReturedTime();
 		    String remark = bkModel.getRemark();
@@ -79,6 +82,18 @@ public class DeviceServiceImpl implements DeviceService {
 
 			deviceRepository.saveAll(lstDevice);
 
+	}
+
+	@Override
+	public Page<DeviceModel> findPage(int pageNumber) {
+		
+		Pageable pageable = PageRequest.of(pageNumber - 1,5);
+		
+		Page<Device> listDevice = deviceRepository.findAll(pageable);
+	
+		Page<DeviceModel> listDeviceModel = listDevice.map(obj -> new DeviceModel(obj));
+		 
+		 return listDeviceModel;
 	}
 
 }

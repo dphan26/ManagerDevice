@@ -12,6 +12,10 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.constant.Const;
@@ -22,22 +26,24 @@ import com.example.demo.form.ConditionSearchForm;
 //https://stackoverflow.com/questions/18069449/criteriabuilder-and-criteriabuilder-or-how-to
 //https://docs.jboss.org/hibernate/entitymanager/3.5/reference/en/html/querycriteria.html#querycriteria-from-root
 //https://docs.oracle.com/cd/E19798-01/821-1841/gjitv/index.html
+//https://www.youtube.com/watch?v=wJBAFZv_KN0
 
 @Repository
 public class SearchRepository {
 
 	@Autowired
-	EntityManager em;;
+	EntityManager em;
 
-	public List<Device> findBooksByAuthorNameAndTitle(ConditionSearchForm conditionSearchForm) {
+	public Page<Device> findDeviceByConditionSearch(ConditionSearchForm conditionSearchForm) {
 
+		int pageNumber = 1;
+		int pageSize = 5;
 		String categoryId = conditionSearchForm.getCategoryId();
 		String version = conditionSearchForm.getVersion();
 		String deviceIdOrName = conditionSearchForm.getDeviceIdOrName();
 		String site = conditionSearchForm.getSite();
 		String statusId = conditionSearchForm.getStatus();
 		String bookerId = conditionSearchForm.getBookerId();
-		
 		Date borrowTime = conditionSearchForm.getBorrowedTime();
 		Date returnedTime = conditionSearchForm.getReturnedTime();
 
@@ -67,7 +73,6 @@ public class SearchRepository {
 		if (StringUtils.isNotBlank(site)) {
 			predicates.add(cb.equal(root.get("site"), site));
 		}
-		// not start -> insert the same status to DB
 
 		// search by status
 		if (StringUtils.isNotBlank(statusId)) {
@@ -78,23 +83,23 @@ public class SearchRepository {
 		if (StringUtils.isNotBlank(bookerId)) {
 			predicates.add(cb.equal(root.get("user").get("id"), bookerId));
 		}
-		
+
 		// search by borrowedTime or returnedTime returnedTime
-		if (borrowTime!=null && returnedTime != null) {
+		if (borrowTime != null && returnedTime != null) {
 			predicates.add(cb.and(cb.greaterThanOrEqualTo(root.<Date>get("borrowedTime"), borrowTime),
 					cb.lessThanOrEqualTo(root.<Date>get("returnedTime"), returnedTime)));
-		} 
-		else if (borrowTime!=null && returnedTime == null) {
+		} else if (borrowTime != null && returnedTime == null) {
 			predicates.add(cb.greaterThanOrEqualTo(root.<Date>get("borrowedTime"), borrowTime));
-		} else if (returnedTime!=null && borrowTime == null) {
+		} else if (returnedTime != null && borrowTime == null) {
 			predicates.add(cb.lessThanOrEqualTo(root.<Date>get("returnedTime"), returnedTime));
 		}
-	
 
 		cq.where(predicates.toArray(new Predicate[0]));
-
 		List<Device> lstDevice = em.createQuery(cq).getResultList();
-		return lstDevice;
+		Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+	
+		return new PageImpl<>(lstDevice, pageable, lstDevice.size());
+
 	}
 
 }

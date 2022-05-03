@@ -32,7 +32,7 @@ public class DeviceForm {
 	private Date borrowedTime;
 
 	// returned Time
-	private Date returedTime;
+	private Date returnedTime;
 
 	// status
 	private String status;
