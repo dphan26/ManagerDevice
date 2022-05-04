@@ -64,9 +64,7 @@ public class HomeController {
 	public String getOnePage(@ModelAttribute ConditionSearchForm conditionSearchForm, 
 			Model model, Authentication authentication,
 			@PathVariable("pageNumber") int currentPage) throws Exception {
-		
-		MyUserDetails inforUser = (MyUserDetails) authentication.getPrincipal();
-		
+								
 		Page<DeviceModel> page  ;
 		int totalPages = 0;
 		long totalItems = 0;
@@ -113,7 +111,10 @@ public class HomeController {
 		model.addAttribute("sites", Const.LIST_SITE_MAP);
 		model.addAttribute("statusMap", Const.LIST_STATUS_MAP);
 		model.addAttribute("conditionSearchForm", conditionSearchForm);
-		model.addAttribute("inforUser", inforUser);
+		if(authentication!=null) {
+			MyUserDetails inforUser = (MyUserDetails) authentication.getPrincipal();
+			model.addAttribute("inforUser", inforUser);
+		}
 
 		return "home_device";
 	}

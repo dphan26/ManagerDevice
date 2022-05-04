@@ -11,7 +11,7 @@
 <body>
 	<h1>Manager Devices</h1>
 	Welcome :
-	<span th:utext="${#request.userPrincipal.name}"></span>
+	<span  th:utext="${#request.userPrincipal.name}"></span>
 	<form th:action="@{/logout}" method="post">
 		<input type="submit" value="Logout" />
 	</form>

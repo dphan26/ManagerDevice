@@ -24,10 +24,7 @@ public class RegisterForm {
 		private String categoryId;
 
 		// version
-		private String version;
-		
-		// status
-		private String status;
+		private String version;		
 		
 		// status
 		private String site;

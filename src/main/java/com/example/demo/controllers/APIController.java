@@ -32,7 +32,6 @@ public class APIController {
 	@PostMapping("/api/addRegisterDevice")
 	public ResponseEntity<List<RegisterModel>> addRegisterDevice(@RequestBody List<RegisterForm> lstRegisterForm) {
 
-		System.out.println("dopt" + lstRegisterForm);
 		try {
 			// Convert from Form to Model object
 			List<RegisterModel> regModel = lstRegisterForm.stream()
@@ -41,8 +40,7 @@ public class APIController {
 //	    	 if (result.hasErrors()) {
 //	  	       
 //	    		 return new ResponseEntity<>(asset, HttpStatus.EXPECTATION_FAILED);
-//			    }
-//			homePageService.addAsets(asset);			      
+//			    }		      
 			return new ResponseEntity<>(regModel, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

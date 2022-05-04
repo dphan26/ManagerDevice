@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Const {
+	public static final String STATUS_REGISTER = "Available";
+
 	public static final Map<Integer, String> LIST_STATUS_MAP = new HashMap<Integer, String>();
 	static {
 		// TODO Auto-generated method stub
