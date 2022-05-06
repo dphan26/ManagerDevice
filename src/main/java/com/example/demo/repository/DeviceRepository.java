@@ -30,6 +30,9 @@ public interface DeviceRepository extends JpaRepository<Device, String> {
     void updateInforBooking(@Param(value = "id") String id, @Param(value = "status") String status,
     		@Param(value = "borrowedTime") Date borrowedTime,
     		@Param(value = "returnedTime") Date returnedTime,
-    		@Param(value = "remark") String remark); 
+    		@Param(value = "remark") String remark);
+
+	@Query(value = "select d.id from Device d")
+	List<String> getAllDevicesID(); 
 
 }

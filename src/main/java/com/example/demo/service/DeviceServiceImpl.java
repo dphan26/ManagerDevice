@@ -97,4 +97,10 @@ public class DeviceServiceImpl implements DeviceService {
 		return listDeviceModel;
 	}
 
+	@Override
+	public List<String> getAllDevicesID() {
+		// TODO Auto-generated method stub		
+		return deviceRepository.getAllDevicesID();
+	}
+
 }

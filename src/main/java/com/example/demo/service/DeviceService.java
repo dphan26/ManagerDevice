@@ -23,5 +23,7 @@ public interface DeviceService {
 	
 	Page<DeviceModel> findPage(int pageNumber);
 	
+	List<String> getAllDevicesID();
+	
 
 }
