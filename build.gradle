@@ -19,7 +19,6 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.6.1'
 	// https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc
-	// https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc
 	implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '8.4.1.jre8'
 	// https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jasper  -> de cau hinh view la jsp
 	implementation group: 'org.apache.tomcat', name: 'tomcat-jasper', version: '9.0.56'
@@ -48,6 +47,8 @@ dependencies {
 	
 	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs
 	implementation group: 'org.springframework.security', name: 'spring-security-taglibs', version: '5.6.2'
+	
+	implementation 'commons-fileupload:commons-fileupload:1.4'
 	
 
     

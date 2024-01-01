@@ -52,15 +52,18 @@ public class WebSecurityConfig extends  WebSecurityConfigurerAdapter {
 	        auth.authenticationProvider(authenticationProvider());
 	    }
 	 
+	 //https://www.javaguides.net/2023/04/spring-security-custom-login-page.html
 	 @Override
 	    protected void configure(HttpSecurity http) throws Exception {
 	    http.csrf().disable();
 	        http.authorizeRequests()
 	    		.antMatchers("/api/**").permitAll()
+	    		.antMatchers("/change-language").permitAll()
 	        	.antMatchers("/**").hasAnyRole("ADMIN", "USER")	        
 	            .anyRequest().authenticated()
 	            .and()
 	            .formLogin().permitAll()
+	            .loginPage("/login")
 	            .and()
 	            .logout().permitAll()
 	            .and()

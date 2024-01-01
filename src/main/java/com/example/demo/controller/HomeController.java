@@ -1,8 +1,9 @@
-package com.example.demo.controllers;
+package com.example.demo.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.constant.Const;
 import com.example.demo.entity.Category;
@@ -37,7 +40,9 @@ import com.example.demo.service.BookingService;
 import com.example.demo.service.DeviceService;
 import com.example.demo.service.MyUserDetails;
 import com.example.demo.service.SearchService;
+
 @Controller
+@SessionAttributes("myAttribute")
 public class HomeController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
 	
@@ -53,9 +58,18 @@ public class HomeController {
 	@Autowired
 	private BookingService bookingService;
 	
+    @GetMapping("/login")
+    public String login(Model model){
+    	model.addAttribute("languages", Const.LIST_LANGUAGE);
+        return "login";
+    }
+    
+	
 	@RequestMapping(value = {"/", "/devices" }, method = { RequestMethod.GET, RequestMethod.POST })
 	public String home(@ModelAttribute ConditionSearchForm conditionSearchForm, Model model,
-			 Authentication authentication) throws Exception {
+			 Authentication authentication, HttpSession session) throws Exception {
+			String myAttribute = (String) session.getAttribute("myAttribute");
+			System.out.println("dopt" + myAttribute);
 			return getOnePage(conditionSearchForm, model, authentication, 1);	
 	}
 		
@@ -109,6 +123,7 @@ public class HomeController {
 		model.addAttribute("lstCategory", lstCategory);
 		model.addAttribute("lstUser", lstUser);
 		model.addAttribute("sites", Const.LIST_SITE_MAP);
+		model.addAttribute("languages", Const.LIST_LANGUAGE);
 		model.addAttribute("statusMap", Const.LIST_STATUS_MAP);
 		model.addAttribute("conditionSearchForm", conditionSearchForm);
 		if(authentication!=null) {

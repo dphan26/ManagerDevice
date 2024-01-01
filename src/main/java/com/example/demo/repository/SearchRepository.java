@@ -37,7 +37,6 @@ public class SearchRepository {
 	public Page<Device> findDeviceByConditionSearch(ConditionSearchForm conditionSearchForm) {
 
 		int pageNumber = 1;
-		int pageSize = 5;
 		String categoryId = conditionSearchForm.getCategoryId();
 		String version = conditionSearchForm.getVersion();
 		String deviceIdOrName = conditionSearchForm.getDeviceIdOrName();
@@ -96,7 +95,7 @@ public class SearchRepository {
 
 		cq.where(predicates.toArray(new Predicate[0]));
 		List<Device> lstDevice = em.createQuery(cq).getResultList();
-		Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+		Pageable pageable = PageRequest.of(pageNumber - 1, Const.PAGE_SIZE);
 	
 		return new PageImpl<>(lstDevice, pageable, lstDevice.size());
 

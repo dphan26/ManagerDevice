@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Local Storage Example</title>
+    <script>
+        function saveData() {
+            var data = document.getElementById("data").value;
+            localStorage.setItem("myData", data);
+        }
+
+        function loadData() {
+            var data = localStorage.getItem("myData");
+            alert(data);
+        }
+    </script>
+</head>
+<body>
+    <h1>Local Storage Example</h1>
+    <label for="data">Data:</label>
+    <input type="text" id="data">
+    <button onclick="saveData()">Save Data</button>
+    <button onclick="loadData()">Load Data</button>
+</body>
+</html>

@@ -2,6 +2,8 @@ package com.example.demo.config;
 
 
 
+import java.util.Locale;
+
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.MessageSource;
@@ -9,11 +11,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -85,6 +94,7 @@ public class WebConfig implements WebMvcConfigurer  {
 	        return modelMapper;
 	    }
 	   //https://www.baeldung.com/spring-custom-validation-message-source
+	   /*
 	   @Bean
 	   public MessageSource messageSource() {
 	       ReloadableResourceBundleMessageSource messageSource
@@ -94,6 +104,40 @@ public class WebConfig implements WebMvcConfigurer  {
 	       messageSource.setDefaultEncoding("UTF-8");
 	       return messageSource;
 	   }
+	   */
+	   // multi-language start
+		@Bean("messageSource")
+		public ResourceBundleMessageSource  messageSource() {
+		    ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+		    messageSource.setBasenames("language/messages");
+		    messageSource.setDefaultEncoding("UTF-8");
+		    return messageSource;
+		}
+		
+		@Bean
+		public LocaleResolver localeResolver() {
+	//	    SessionLocaleResolver slr = new SessionLocaleResolver();
+		    CookieLocaleResolver clr = new CookieLocaleResolver();
+		    clr.setDefaultLocale(new Locale("ko"));
+		    clr.setCookieName("localeLanguage");
+		    
+		    //slr.setLocaleAttributeName("current.locale");
+		    //slr.setTimeZoneAttributeName("current.timezone");
+		    return clr;
+		}
+		
+		@Bean
+		public LocaleChangeInterceptor localeChangeInterceptor() {
+		    LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+		    localeChangeInterceptor.setParamName("language");
+		    return localeChangeInterceptor;
+		}
+		
+		@Override
+		public void addInterceptors(InterceptorRegistry registry) {
+		    registry.addInterceptor(localeChangeInterceptor()).addPathPatterns("/*");
+		}
+		 // multi-language end
 	   
 	   @Bean
 	   public LocalValidatorFactoryBean getValidator() {
@@ -108,5 +152,12 @@ public class WebConfig implements WebMvcConfigurer  {
 	       templateEngine.setTemplateResolver(templateResolver);
 	       templateEngine.addDialect(sec); // Enable use of "sec"
 	       return templateEngine;
+	   }
+	   
+	   @Bean
+	   public CommonsMultipartResolver multipartResolver() {
+	       CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+	       resolver.setMaxUploadSize(10000000);
+	       return resolver;
 	   }
 }

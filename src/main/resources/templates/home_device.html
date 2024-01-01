@@ -16,6 +16,37 @@
 		<input type="submit" value="Logout" />
 	</form>
 	<br>
+	
+	 <h2 data-th-text="#{label.title}"></h2>
+    <p data-th-text="#{label.chooseLang}"></p>
+    
+	<form th:action="@{/uploadMultipleFiles}" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label for="files">Select files:</label>
+			<input type="file" id="files" name="file" multiple="multiple" />
+		</div>
+		<button type="submit" class="btn btn-primary">Upload</button>
+	</form>
+
+    
+    <div>
+        <span>
+            <a href="/?language=en" data-th-text="#{label.lang.en}"></a>&nbsp;&nbsp;&nbsp;
+            <a href="/?language=de" data-th-text="#{label.lang.de}"></a>&nbsp;&nbsp;&nbsp;
+            <a href="/?language=fr" data-th-text="#{label.lang.fr}"></a>
+        </span>
+         <form action="/change-language" method="post">
+			<select	name="language" onchange="this.form.submit()">			
+				<option th:each="lang : ${languages}" 
+					th:value="${lang.key}"
+					th:text="${lang.value}"
+					th:selected="${key==2}">			
+				</option>
+			</select>
+		</form>
+  
+    </div>
+	
 	<form id="formSearch" name='search' th:object="${conditionSearchForm}"
 		action="/" method="post">
 		<!--Combox display all kind of categories -->
@@ -133,6 +164,23 @@
 			document.getElementById("btnSearch").click();
 
 		}
+		
+		function storeFormData() {
+		  const category = document.getElementById('categoryId').value;
+		  const site = document.getElementById('site').value;
+		  const status = document.getElementById('status').value;
+		  const booker = document.getElementById('bookerId').value;
+
+		  localStorage.setItem('category', category);
+		  localStorage.setItem('site', site);
+		  localStorage.setItem('status', status);
+		  localStorage.setItem('booker', booker);
+		}
+		
+		// Call the function when the form is submitted
+		document.getElementById('formSearch').addEventListener('submit', function(e) {
+		  storeFormData();
+})
 	</script>
 
 </body>

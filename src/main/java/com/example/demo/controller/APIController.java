@@ -1,4 +1,4 @@
-package com.example.demo.controllers;
+package com.example.demo.controller;
 
 import java.util.HashSet;
 import java.util.List;
@@ -60,30 +60,6 @@ public class APIController {
 				.collect(Collectors.toList()));
 
 		return new ResponseEntity<>(messages, HttpStatus.BAD_REQUEST);
-
 	}
-
-	// Check exist device ID:
-
-	// List<String> deviceID = getAllDeviceID();
-//			List<String> deviceID = deviceService.getAllDevicesID();
-//			List<String> names = lstRegisterForm.stream()
-//				              .map(RegisterForm::getDeviceId)
-//				              .collect(Collectors.toList());
-//			boolean var = names.stream().anyMatch(element -> deviceID.contains(element));
-//			//if(!Collections.disjoint(deviceID, lstRegisterForm.ge);)
-//			// Convert from Form to Model object
-//			List<RegisterModel> regModel = lstRegisterForm.stream()
-//					.map(regFrom -> mapper.map(regFrom, RegisterModel.class)).collect(Collectors.toList());
-//			deviceService.saveAllRegisterDevice(regModel);
-////	    	 if (result.hasErrors()) {
-////	  	       
-////	    		 return new ResponseEntity<>(asset, HttpStatus.EXPECTATION_FAILED);
-////			    }		      
-//			return new ResponseEntity<>(regModel, HttpStatus.OK);
-//		} catch (Exception e) {
-//			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
-//	}
 
 }

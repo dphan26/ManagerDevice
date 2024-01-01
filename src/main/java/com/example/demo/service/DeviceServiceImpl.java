@@ -87,11 +87,8 @@ public class DeviceServiceImpl implements DeviceService {
 
 	@Override
 	public Page<DeviceModel> findPage(int pageNumber) {
-
-		Pageable pageable = PageRequest.of(pageNumber - 1, 5);
-
+		Pageable pageable = PageRequest.of(pageNumber - 1, Const.PAGE_SIZE);
 		Page<Device> listDevice = deviceRepository.findAll(pageable);
-
 		Page<DeviceModel> listDeviceModel = listDevice.map(obj -> new DeviceModel(obj));
 
 		return listDeviceModel;
