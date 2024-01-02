@@ -19,9 +19,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.demo.form.ConditionSearchForm;
 
 @Controller
-public class LanguageController {
+public class MultiLanguageController {
 //https://shareprogramming.net/huong-dan-su-dung-requestparam-trong-spring-boot/
-	@PostMapping("/change-language")
+	@PostMapping("/multi-language")
 	public String changeLanguage(
 			RedirectAttributes redirectAttributes, @ModelAttribute ConditionSearchForm conditionSearchForm) {
 		//LocaleResolver localeResolver = (LocaleResolver) RequestContextUtils.getLocaleResolver(request);
@@ -35,10 +35,10 @@ public class LanguageController {
 		lstData.add(b);
 		redirectAttributes.addFlashAttribute("data", lstData);
 		
- 		 return "redirect:" + "/change-language";
+ 		 return "redirect:" + "/multi-language";
 	}
 	
-	@GetMapping("/change-language")
+	@GetMapping("/multi-language")
 	public String changeLanguage(@RequestParam("language") String language,
 			HttpServletRequest request , HttpServletResponse response, HttpSession session,
 			Model model,

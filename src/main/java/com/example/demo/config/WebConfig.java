@@ -29,6 +29,11 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+
 @Configuration
 public class WebConfig implements WebMvcConfigurer  {
 
@@ -160,4 +165,13 @@ public class WebConfig implements WebMvcConfigurer  {
 	       resolver.setMaxUploadSize(10000000);
 	       return resolver;
 	   }
+	  //https://viblo.asia/p/set-up-swagger-2-voi-spring-rest-api-djeZ1zj3lWz 
+	    @Bean
+	    public Docket api() { 
+	        return new Docket(DocumentationType.SWAGGER_2)  
+	          .select()                                  
+	          .apis(RequestHandlerSelectors.any())              
+	          .paths(PathSelectors.any())                          
+	          .build();                                           
+	    }
 }
